@@ -79,7 +79,7 @@ export default {
 
             this.loading = false;
             this.$store.commit('setUser', user);
-            this.$store.commit('setIsAdmin', user.is_admin);
+            this.$store.commit('setIsAdmin', user.is_admin || false);
 
             this.$router.push({path:'/'});
             }

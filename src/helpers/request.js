@@ -26,7 +26,6 @@ export function doGet({ query = {}, path = "" }) {
   const token = localStorage.getItem("token");
   const params = new URLSearchParams(query).toString();
   const url = new URL(path, baseUrl).toString();
-  console.log(token);
   const headers = {
     accept: "application/json",
   };

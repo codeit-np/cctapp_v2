@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     token: localStorage.getItem('token'),
     user: null,
-    isAdmin: false
+    isAdmin: false,
+    loading: false
   },
   mutations: {
     setToken(state, token){
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     },
     setIsAdmin(state, isAdmin){
       state.isAdmin = isAdmin
+    },
+    setLoading(state, loading){
+      state.loading = loading
     },
   },
   actions: {
