@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import LandingPage from '../views/LandingPage.vue'
 import Home from '../views/Home.vue'
 import store from '../store'
 import getUser from '../helpers/getUser'
@@ -10,7 +11,13 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        component: LandingPage,
+      }
+    ]
   },
   {
     path: '/about',

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <el-skeleton v-if="$store.state.loading" v-loading.fullscreen.lock="$store.state.loading"/>
+      <el-skeleton v-if="$store.state.loading" :rows="10" animated/>
     <router-view v-else> </router-view>
   </div>
 </template>
