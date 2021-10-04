@@ -1,6 +1,6 @@
 <template lang="">
    <el-dialog
-    title="Create Batch"
+    title="Edit Batch"
     v-loading="loading"
     :visible="value"
     @close="handleClose"
