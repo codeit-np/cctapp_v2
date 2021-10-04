@@ -15,7 +15,7 @@
             {{ form.errors().get('title') }}
         </small>
         <small class="text-danger">
-          {{ errors.year }}
+          {{ errors.title }}
         </small>
 
         <el-button type="primary" class="my-2" :disabled="form.empty()" @click="handleSubmit" plain>Add Term</el-button>
