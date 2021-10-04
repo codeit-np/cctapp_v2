@@ -16,7 +16,7 @@
                 {{ form.errors().get('title') }}
             </small>
             <small class="text-danger">
-            {{ errors.year }}
+            {{ errors.title }}
             </small>
         </div>
 
