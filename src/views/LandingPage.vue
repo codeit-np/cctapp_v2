@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="container-fluid">
+    <div class="container-fluid mx-auto text-center">
       <div class="p-4">
         <img
           src="@/assets/cctlogo.png"
@@ -53,11 +53,11 @@
         <div class="row gy-4 my-4">
           <h4>Master Entry</h4>
 
-          <div class="col-lg-3 col-md-6">
-            <el-card shadow="hover">Manage Batches</el-card>
+          <div @click="$router.push({ name: 'Batches' })"  class="col-lg-3 col-md-6">
+            <el-card  shadow="hover">Manage Batches</el-card>
           </div>
 
-          <div class="col-lg-3 col-md-6">
+          <div class="col-lg-3 col-md-6" @click="$router.push({ name: 'Terms' })">
             <el-card shadow="hover">Manage Terms</el-card>
           </div>
 

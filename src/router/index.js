@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LandingPage from '../views/LandingPage.vue'
+import Batches from '../views/Batches.vue'
+import Terms from '../views/Terms.vue'
 import Home from '../views/Home.vue'
 import store from '../store'
 import getUser from '../helpers/getUser'
@@ -14,8 +16,19 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       {
-        path: '',
+        name: 'Landing',
+        path: '/',
         component: LandingPage,
+      },
+      {
+        name:'Batches',
+        path: '/batches',
+        component: Batches,
+      },
+      {
+        name:'Terms',
+        path: '/terms',
+        component: Terms,
       }
     ]
   },

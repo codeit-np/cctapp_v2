@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="content-wrapper d-flex dark-color"  style="min-height: 100vh;">
+    <div class="content-wrapper d-flex dark-color text-center"  style="min-height: 100vh;">
         <div class="container-fluid my-auto mx-auto ">
             <img src="../assets/cctlogo.png" alt="Cetral Campus Of Technology, Dharan" class="logo">
             <el-card v-loading="loading" class="login-card mx-auto">

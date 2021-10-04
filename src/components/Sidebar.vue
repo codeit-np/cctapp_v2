@@ -3,17 +3,20 @@
     class="el-menu-vertical-demo pt-4"
     :collapse="isCollapse"
   >
-
+    <el-menu-item @click="$router.push({ name: 'Landing' })" index="0">
+       <i class="fas fa-home"></i> 
+        <span slot="title">Home</span>
+    </el-menu-item>
     <el-submenu index="1">
       <template slot="title">
         <i class="fas fa-book-open"></i> 
         <span slot="title">Master Entry</span>
       </template>
-      <el-menu-item index="1-1">
+      <el-menu-item @click="$router.push({ name: 'Batches' })" index="1-1">
          <i class="fas fa-user-graduate"></i>  
           Manage Batches
         </el-menu-item>
-      <el-menu-item index="1-2">
+      <el-menu-item  @click="$router.push({ name: 'Terms' })" index="1-2">
           <i class="fas fa-school"></i>
           Manage Terms
         </el-menu-item>
