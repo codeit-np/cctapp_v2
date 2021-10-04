@@ -12,7 +12,7 @@
         v-model="form.title" />
 
         <small class="text-danger" v-if="form.errors().has('title')">
-            {{ form.errors().get('year') }}
+            {{ form.errors().get('title') }}
         </small>
         <small class="text-danger">
           {{ errors.year }}
