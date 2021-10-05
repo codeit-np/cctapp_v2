@@ -65,7 +65,7 @@
             <el-card shadow="hover">Manage Faculties</el-card>
           </div>
           
-          <div class="col-lg-3 col-md-6">
+          <div class="col-lg-3 col-md-6" @click="$router.push({ name: 'Subject Types' })">
             <el-card shadow="hover">Manage Subject Types</el-card>
           </div>
         </div>

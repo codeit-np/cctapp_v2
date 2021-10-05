@@ -24,7 +24,7 @@
           <i class="fas fa-users"></i>
           Manage Faculties
         </el-menu-item>
-      <el-menu-item index="1-4">
+      <el-menu-item index="1-4" @click="$router.push({ name: 'Subject Types' })"  >
           <i class="fas fa-chalkboard"></i>
           Manage Subject Types
         </el-menu-item>

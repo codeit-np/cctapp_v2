@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import LandingPage from '../views/LandingPage.vue'
 import Batches from '../views/Batches.vue'
 import Terms from '../views/Terms.vue'
+import SubjectTypes from '../views/SubjectTypes.vue'
 import Faculties from '../views/Faculties.vue'
 import Home from '../views/Home.vue'
 import store from '../store'
@@ -35,6 +36,11 @@ const routes = [
         name:'Faculties',
         path: '/faculties',
         component: Faculties,
+      },
+      {
+        name:'Subject Types',
+        path: '/subjecttypes',
+        component: SubjectTypes,
       },
     ]
   },
