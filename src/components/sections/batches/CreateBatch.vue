@@ -40,7 +40,7 @@ export default {
       errors: {},
     };
   },
-  mounted(){
+  mounted() {
     this.form.year = "";
   },
   methods: {
@@ -54,9 +54,12 @@ export default {
           return;
         }
         this.loading = true;
-        const response = await doPost({ body: this.form.all(), path:'batches' });
+        const response = await doPost({
+          body: this.form.all(),
+          path: "batches",
+        });
         const data = await response.json();
-        console.log(data)
+        console.log(data);
         if (!response.ok) {
           this.errors = data.errors;
           throw { message: data.message };
@@ -68,7 +71,7 @@ export default {
           type: "success",
         });
 
-         this.$emit("success");
+        this.$emit("success");
         this.handleClose();
       } catch (err) {
         this.$notify.error({
@@ -78,6 +81,13 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+  },
+  watch: {
+    value() {
+      this.form.year = "";
+      this.form.errors().forget();
+      this.errors = {};
     },
   },
 };

@@ -40,7 +40,7 @@ export default {
       errors: {},
     };
   },
-  mounted(){
+  mounted() {
     this.form.title = "";
   },
   methods: {
@@ -54,9 +54,12 @@ export default {
           return;
         }
         this.loading = true;
-        const response = await doPost({ body: this.form.all(), path:'faculties' });
+        const response = await doPost({
+          body: this.form.all(),
+          path: "faculties",
+        });
         const data = await response.json();
-        
+
         if (!response.ok) {
           this.errors = data.errors;
           throw { message: data.message };
@@ -67,7 +70,7 @@ export default {
           message: data.message || "Action Was Successful",
           type: "success",
         });
-        
+
         this.$emit("success");
         this.handleClose();
       } catch (err) {
@@ -78,6 +81,13 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+  },
+  watch: {
+    value() {
+      this.form.title = "";
+      this.form.errors().forget();
+      this.errors = {};
     },
   },
 };
