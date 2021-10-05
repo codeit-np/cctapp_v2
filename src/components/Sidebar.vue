@@ -20,7 +20,7 @@
           <i class="fas fa-school"></i>
           Manage Terms
         </el-menu-item>
-      <el-menu-item index="1-3">
+      <el-menu-item index="1-3" @click="$router.push({ name: 'Faculties' })" >
           <i class="fas fa-users"></i>
           Manage Faculties
         </el-menu-item>
