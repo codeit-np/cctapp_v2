@@ -44,7 +44,22 @@
                 icon="el-icon-edit"
                 circle
               ></el-button>
-             
+             <el-popconfirm
+              confirm-button-text='OK'
+              cancel-button-text='No, Thanks'
+              icon="el-icon-info"
+              @confirm="handleDelete(term.id)"
+              icon-color="red"
+              title="Are you sure to delete this?"
+            >
+              <el-button
+                slot="reference"
+                type="danger"
+                class="mx-1"
+                icon="el-icon-delete"
+                circle
+              ></el-button>
+            </el-popconfirm>
             </td>
           </tr>
         </tbody>
@@ -53,7 +68,7 @@
   </div>
 </template>
 <script>
-import { doGet } from "../helpers/request";
+import { doGet, doPost } from "../helpers/request";
 import Create from "../components/sections/terms/CreateTerm.vue";
 import Edit from "../components/sections/terms/EditTerm.vue";
 
@@ -96,7 +111,27 @@ export default {
       this.activeID = id;
       this.openEdit = true;
     },
-   
+    handleDelete: async function(id){
+      try{
+        const response = await doPost({method:'DELETE', path:`terms/${id}`});
+        const data = await response.json();
+        if(!response.ok){
+          throw data;
+        }
+        this.$notify({
+          title: "Success",
+          message: data.message || "Action was successful",
+          type: "success",
+        });
+        this.terms = this.terms.filter(term=> term.id !== id);
+
+      }catch(err){
+       this.$notify.error({
+          title: "Error",
+          message: err.message || "Something went Wrong.",
+        });
+      }
+    },
   },
   mounted: function () {
     this.fetchTerms();

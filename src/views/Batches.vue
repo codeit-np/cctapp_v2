@@ -44,7 +44,22 @@
                 icon="el-icon-edit"
                 circle
               ></el-button>
-             
+             <el-popconfirm
+                confirm-button-text='OK'
+                cancel-button-text='No, Thanks'
+                icon="el-icon-info"
+                @confirm="handleDelete(batch.id)"
+                icon-color="red"
+                title="Are you sure to delete this?"
+              >
+              <el-button
+                slot="reference"
+                type="danger"
+                class="mx-1"
+                icon="el-icon-delete"
+                circle
+              ></el-button>
+            </el-popconfirm>
             </td>
           </tr>
         </tbody>
@@ -53,7 +68,7 @@
   </div>
 </template>
 <script>
-import { doGet } from "../helpers/request";
+import { doGet, doPost } from "../helpers/request";
 import Create from "../components/sections/batches/CreateBatch.vue";
 import Edit from "../components/sections/batches/EditBatch.vue";
 
@@ -94,6 +109,26 @@ export default {
     handleOpenEdit(id) {
       this.activeID = id;
       this.openEdit = true;
+    },
+    handleDelete: async function(id){
+    try{
+      const response = await doPost({method:'DELETE', path:`batches/${id}`});
+      const data = await response.json();
+      if(!response.ok){
+        throw data;
+      }
+      this.$notify({
+        title: "Success",
+        message: data.message || "Action was successful",
+        type: "success",
+      });
+      this.batches = this.batches.filter(batch=> batch.id !== id);
+    }catch(err){
+      this.$notify.error({
+        title: "Error",
+        message: err.message || "Something went Wrong.",
+      });
+    }
     },
    
   },
