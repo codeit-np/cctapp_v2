@@ -34,7 +34,7 @@ export default {
       form: form({
         year: "",
       }).rules({
-        year: "required|numeric",
+        year: ["required","numeric"],
       }),
       loading: false,
       errors: {},
