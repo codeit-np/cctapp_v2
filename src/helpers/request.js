@@ -24,7 +24,12 @@ export function doPost({ method = "POST", body, path = "" }) {
 export function doGet({ query = {}, path = "" }) {
   
   const token = localStorage.getItem("token");
-  const params = new URLSearchParams(query).toString();
+
+  const cleanedQuery = Object.keys(query)
+  .filter((key) => query[key] != null )
+  .reduce((object, key) => ({ ...object, [key]: query[key] }), {});
+
+  const params = new URLSearchParams(cleanedQuery).toString();
   const url = new URL(path, baseUrl).toString();
   const headers = {
     accept: "application/json",
