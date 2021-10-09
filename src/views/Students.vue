@@ -1,6 +1,6 @@
 <template lang="">
   <div class="container-fluid">
-    <create v-model="openCreate" @success="fetchStudents" />
+    <create v-model="openCreate"  />
     <el-card v-loading="metaLoading">
       <div class="d-flex space-between justify-content-between flex-column flex-lg-row px-4">
         <el-select class="my-1" v-model="batch_id" placeholder="Select Batch">
