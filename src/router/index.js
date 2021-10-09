@@ -5,7 +5,10 @@ import Batches from '../views/Batches.vue'
 import Terms from '../views/Terms.vue'
 import SubjectTypes from '../views/SubjectTypes.vue'
 import Faculties from '../views/Faculties.vue'
+import Students from '../views/Students.vue'
 import Home from '../views/Home.vue'
+import EditStudent from '../views/EditStudent.vue'
+
 import store from '../store'
 import getUser from '../helpers/getUser'
 Vue.use(VueRouter)
@@ -41,6 +44,16 @@ const routes = [
         name:'Subject Types',
         path: '/subjecttypes',
         component: SubjectTypes,
+      },
+      {
+        name:'Students',
+        path: '/students',
+        component: Students,
+      },
+      {
+        name:'Student',
+        path: '/student/:id',
+        component: EditStudent,
       },
     ]
   },

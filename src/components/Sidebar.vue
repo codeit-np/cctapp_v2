@@ -30,7 +30,7 @@
         </el-menu-item>
     </el-submenu>
 
-    <el-menu-item index="2">
+    <el-menu-item index="2" @click="$router.push({ name: 'Students' })" >
        <i class="fas fa-user"></i> 
         <span slot="title">Manage Students</span>
     </el-menu-item>

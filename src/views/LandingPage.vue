@@ -29,7 +29,7 @@
             <el-card shadow="hover">Manage Students</el-card>
           </div>
           
-          <div class="col-lg-4 col-md-6">
+          <div class="col-lg-4 col-md-6" @click="$router.push({ name: 'Students' })">
             <el-card shadow="hover">Manage Subjects</el-card>
           </div>
 
