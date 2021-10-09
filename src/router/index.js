@@ -6,6 +6,7 @@ import Terms from '../views/Terms.vue'
 import SubjectTypes from '../views/SubjectTypes.vue'
 import Faculties from '../views/Faculties.vue'
 import Students from '../views/Students.vue'
+import Subjects from '../views/Subjects.vue'
 import Home from '../views/Home.vue'
 import EditStudent from '../views/EditStudent.vue'
 
@@ -54,6 +55,11 @@ const routes = [
         name:'Student',
         path: '/student/:id',
         component: EditStudent,
+      },
+      {
+        name:'Subjects',
+        path: '/subjects',
+        component: Subjects,
       },
     ]
   },

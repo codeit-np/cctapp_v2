@@ -25,11 +25,11 @@
          <div class="row gy-4 my-4">
           <h4>Manage</h4>
           
-          <div class="col-lg-4 col-md-6">
+          <div class="col-lg-4 col-md-6" @click="$router.push({ name: 'Students' })">
             <el-card shadow="hover">Manage Students</el-card>
           </div>
           
-          <div class="col-lg-4 col-md-6" @click="$router.push({ name: 'Students' })">
+          <div class="col-lg-4 col-md-6" @click="$router.push({ name: 'Subjects' })">
             <el-card shadow="hover">Manage Subjects</el-card>
           </div>
 
