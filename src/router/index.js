@@ -7,6 +7,8 @@ import SubjectTypes from '../views/SubjectTypes.vue'
 import Faculties from '../views/Faculties.vue'
 import Students from '../views/Students.vue'
 import Subjects from '../views/Subjects.vue'
+import Teachers from '../views/Teachers.vue'
+import PendingTeachers from '../views/PendingTeachers.vue'
 import Home from '../views/Home.vue'
 import EditStudent from '../views/EditStudent.vue'
 
@@ -60,6 +62,16 @@ const routes = [
         name:'Subjects',
         path: '/subjects',
         component: Subjects,
+      },
+      {
+        name:'Teachers',
+        path: '/teachers',
+        component: Teachers,
+      },
+      {
+        name:'Pending Teachers',
+        path: '/teachers/pending',
+        component: PendingTeachers,
       },
     ]
   },

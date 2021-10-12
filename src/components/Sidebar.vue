@@ -38,7 +38,7 @@
       <i class="fas fa-book"></i>
       <span slot="title">Manage Subjects</span>
     </el-menu-item>
-    <el-menu-item index="4">
+    <el-menu-item index="4" @click="$router.push({ name: 'Teachers' })" >
       <i class="fas fa-chalkboard-teacher"></i>
       <span slot="title">Manage Teachers</span>
     </el-menu-item>
