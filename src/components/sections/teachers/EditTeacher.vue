@@ -82,7 +82,7 @@
       >
     </el-card>
 
-    <el-card class="box-card">
+    <el-card class="mt-4">
         <div slot="header" class="clearfix">
             <span>Update Password</span>
         </div>
