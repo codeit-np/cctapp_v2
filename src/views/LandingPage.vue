@@ -37,7 +37,7 @@
             <el-card shadow="hover">Manage Teachers</el-card>
           </div>
 
-          <div class="col-lg-4 col-md-6">
+          <div class="col-lg-4 col-md-6" @click="$router.push({ name: 'SQCs' })">
             <el-card shadow="hover">Manage SQC</el-card>
           </div>
 

@@ -42,7 +42,7 @@
       <i class="fas fa-chalkboard-teacher"></i>
       <span slot="title">Manage Teachers</span>
     </el-menu-item>
-    <el-menu-item index="5">
+    <el-menu-item index="5" @click="$router.push({ name: 'SQCs' })">
       <i class="fas fa-user-check"></i>
       <span slot="title">Manage SQC</span>
     </el-menu-item>

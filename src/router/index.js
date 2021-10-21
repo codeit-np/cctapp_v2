@@ -8,9 +8,12 @@ import Faculties from '../views/Faculties.vue'
 import Students from '../views/Students.vue'
 import Subjects from '../views/Subjects.vue'
 import Teachers from '../views/Teachers.vue'
+import Sqcs from '../views/Sqcs.vue'
 import PendingTeachers from '../views/PendingTeachers.vue'
+import PendingSqcs from '../views/PendingSqcs.vue'
 import Home from '../views/Home.vue'
 import EditStudent from '../views/EditStudent.vue'
+import EditSqc from '../views/EditSqc.vue'
 
 import store from '../store'
 import getUser from '../helpers/getUser'
@@ -72,6 +75,21 @@ const routes = [
         name:'Pending Teachers',
         path: '/teachers/pending',
         component: PendingTeachers,
+      },
+      {
+        name:'SQCs',
+        path: '/sqcs',
+        component: Sqcs,
+      },
+      {
+        name:'Pending SQCs',
+        path: '/sqcs/pending',
+        component: PendingSqcs,
+      },
+      {
+        name:'SQC',
+        path: '/sqc/:id',
+        component: EditSqc,
       },
     ]
   },
