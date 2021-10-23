@@ -46,7 +46,7 @@
       <i class="fas fa-user-check"></i>
       <span slot="title">Manage SQC</span>
     </el-menu-item>
-    <el-menu-item index="6">
+    <el-menu-item index="6" @click="$router.push({ name: 'Student Subject' })">
       <i class="fas fa-book-reader"></i>
       <span slot="title">Assign Subjects</span>
     </el-menu-item>

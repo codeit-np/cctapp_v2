@@ -41,7 +41,7 @@
             <el-card shadow="hover">Manage SQC</el-card>
           </div>
 
-          <div class="col-lg-4 col-md-6">
+          <div class="col-lg-4 col-md-6" @click="$router.push({ name: 'Student Subject' })">
             <el-card shadow="hover">Assign Subjects</el-card>
           </div>
 

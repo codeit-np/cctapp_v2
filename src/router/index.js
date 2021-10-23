@@ -14,7 +14,7 @@ import PendingSqcs from '../views/PendingSqcs.vue'
 import Home from '../views/Home.vue'
 import EditStudent from '../views/EditStudent.vue'
 import EditSqc from '../views/EditSqc.vue'
-
+import StudentSubject from '../views/StudentSubject.vue'
 import store from '../store'
 import getUser from '../helpers/getUser'
 Vue.use(VueRouter)
@@ -90,6 +90,11 @@ const routes = [
         name:'SQC',
         path: '/sqc/:id',
         component: EditSqc,
+      },
+      {
+        name:'Student Subject',
+        path: '/student-subject-assign',
+        component: StudentSubject,
       },
     ]
   },
