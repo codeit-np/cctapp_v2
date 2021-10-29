@@ -55,8 +55,7 @@
     </el-card> 
        
       <div  class="table-responsive">
-
-          <datatable v-if="!loading && attendances.length>0" title="Attendances" :rows="attendances" :columns="headers"> </datatable>
+          <datatable v-if="!loading && headers.length>0" title="Attendances" :rows="attendances" :columns="headers"> </datatable>
       </div>
 
     </div>
@@ -226,18 +225,23 @@ export default {
             teacher_id: attendance.teacher.id,
             teacher_name: attendance.teacher.name,
             topic: attendance.topic,
+            subject: attendance.subject.title,
             date: attendance.date,
           });
           if (!attendanceSet[`${attendance.student.id}`]) {
             attendanceSet[`${attendance.student.id}`] = {};
           }
           attendanceSet[`${attendance.student.id}`][
-            `${attendance.teacher.id}-${attendance.date}-${attendance.topic}`
+            `${attendance.teacher.id}-${attendance.date}-${attendance.topic}-${attendance.subject.title}`
           ] = attendance.present;
         });
 
         this.students = Array.from(studentsSet);
         this.topics = Array.from(topicsSet);
+        
+        //Headers For Table
+
+        this.headers = [];
 
         this.headers.push({
           label: "Name",
@@ -246,27 +250,32 @@ export default {
           html: false,
         });
 
+       
         this.topics.forEach((topic) => {
           topic.id = uuidv4();
           this.headers.push({
-            label: `${topic.topic}-${topic.teacher_name}-${topic.date}`,
-            field: topic.id,
+            label: `${topic.subject}-${topic.topic}-${topic.teacher_name}-${topic.date}`,
+            field: topic.id, //Row Variable
           });
         });
 
+        //Rows For Table
+        this.attendances = []
         this.students.forEach((student) => {
           const attendance = {};
           attendance.name = student['name'];
           this.topics.forEach((topic) => {
             attendance[topic.id] =
               attendanceSet[`${student.id}`][
-                `${topic.teacher_id}-${topic.date}-${topic.topic}`
+                `${topic.teacher_id}-${topic.date}-${topic.topic}-${topic.subject}`
               ]
                 ? "Present"
                 : "Absent";
           });
           this.attendances.push(attendance);
         });
+          
+          
       } catch (err) {
         console.log(err);
         this.$notify.error({
