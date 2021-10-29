@@ -8,8 +8,8 @@
         />
         <div class="row gy-4 my-4">
           <h4>Reports</h4>
-          <div class="col-lg-4 col-md-6">
-            <el-card shadow="hover">Attendence Report</el-card>
+          <div class="col-lg-4 col-md-6"  @click="$router.push({ name: 'Attendance' })">
+            <el-card shadow="hover">Attendance Report</el-card>
           </div>
 
           <div class="col-lg-4 col-md-6">

@@ -15,6 +15,7 @@ import Home from '../views/Home.vue'
 import EditStudent from '../views/EditStudent.vue'
 import EditSqc from '../views/EditSqc.vue'
 import StudentSubject from '../views/StudentSubject.vue'
+import Attendance from '../views/Attendance.vue'
 import store from '../store'
 import getUser from '../helpers/getUser'
 Vue.use(VueRouter)
@@ -95,6 +96,11 @@ const routes = [
         name:'Student Subject',
         path: '/student-subject-assign',
         component: StudentSubject,
+      },
+      {
+        name:'Attendance',
+        path: '/attendance',
+        component: Attendance,
       },
     ]
   },
