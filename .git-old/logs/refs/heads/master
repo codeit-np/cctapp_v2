@@ -1,0 +1,26 @@
+0000000000000000000000000000000000000000 38344bda42d7d0e0b8308f0b52c4a1350e8ad15f Samir Shrestha <theonlysamir@gmail.com> 1632984272 +0545	commit (initial): init
+38344bda42d7d0e0b8308f0b52c4a1350e8ad15f 0e0b2fe0e7982c4578b971e44aaf4c7232e849f3 Samir Shrestha <theonlysamir@gmail.com> 1632986027 +0545	commit: base project
+0e0b2fe0e7982c4578b971e44aaf4c7232e849f3 ee126740bc32c0f7021b9b1a989d797c461cc0c5 Samir Shrestha <theonlysamir@gmail.com> 1632991631 +0545	commit: Login UI added
+ee126740bc32c0f7021b9b1a989d797c461cc0c5 e5060fc1723e59a2a8f5494a8ae17d4f5782eb42 Samir Shrestha <theonlysamir@gmail.com> 1633066971 +0545	commit: Login page added
+e5060fc1723e59a2a8f5494a8ae17d4f5782eb42 2ed03bbd8595143a16e1177f56ad2ace1ca5e67c Samir Shrestha <theonlysamir@gmail.com> 1633072461 +0545	commit: Auth guards added
+2ed03bbd8595143a16e1177f56ad2ace1ca5e67c c996abba42c7a9cda34a5303904cc761962944c3 Samir Shrestha <theonlysamir@gmail.com> 1633201533 +0545	commit: Landing Page added
+c996abba42c7a9cda34a5303904cc761962944c3 143b43c7624de8f1473148ee00cad05fc7816e14 Samir Shrestha <theonlysamir@gmail.com> 1633336294 +0545	commit: batches and terms added
+143b43c7624de8f1473148ee00cad05fc7816e14 3373c04496b273862b19c4cbd27fa1827711d6b2 Samir Shrestha <theonlysamir@gmail.com> 1633338434 +0545	commit: terms update fix
+3373c04496b273862b19c4cbd27fa1827711d6b2 9f9903b1621bab4b72531648f2c84d89f5c08813 Samir Shrestha <theonlysamir@gmail.com> 1633338460 +0545	commit: fix
+9f9903b1621bab4b72531648f2c84d89f5c08813 e0bf448cf7eee1211e1aaf3f0bb857f996357985 Samir Shrestha <theonlysamir@gmail.com> 1633338629 +0545	commit: batch title update
+e0bf448cf7eee1211e1aaf3f0bb857f996357985 dd81fa230130788461d9cc1b8ffff501c292c651 Samir Shrestha <theonlysamir@gmail.com> 1633338686 +0545	commit: bug fix
+dd81fa230130788461d9cc1b8ffff501c292c651 b0fd9333d09064d14bfc4dfe6c56c0d73dee2c2d Samir Shrestha <theonlysamir@gmail.com> 1633420863 +0545	commit: Faculty page added
+b0fd9333d09064d14bfc4dfe6c56c0d73dee2c2d 2fd12bd341f847b04077d1250008f80fdc23fd0d Samir Shrestha <theonlysamir@gmail.com> 1633422644 +0545	commit: Subject Type page added
+2fd12bd341f847b04077d1250008f80fdc23fd0d f32422ceb54e3c86c235d50d736d5f5842f266b4 Samir Shrestha <theonlysamir@gmail.com> 1633423462 +0545	commit: Clear input on open and close
+f32422ceb54e3c86c235d50d736d5f5842f266b4 3100b98135a03e87cbea1b4da9557d7734c3b31b Samir Shrestha <theonlysamir@gmail.com> 1633425463 +0545	commit: Delete added on master entry
+3100b98135a03e87cbea1b4da9557d7734c3b31b 971b2933615715cf752640cc1b0dd01056f1a770 Samir Shrestha <theonlysamir@gmail.com> 1633518622 +0545	commit: validation updated
+971b2933615715cf752640cc1b0dd01056f1a770 b8daea738f262891215b50f02bf3fcec02f8df08 Samir Shrestha <theonlysamir@gmail.com> 1633518634 +0545	commit: request filtering fixed
+b8daea738f262891215b50f02bf3fcec02f8df08 eae3b01cf75e4afa2b86eed24f1d726b9f66d47a Samir Shrestha <theonlysamir@gmail.com> 1633801145 +0545	commit: Student page added
+eae3b01cf75e4afa2b86eed24f1d726b9f66d47a 0ea5fdaca0245ddb2e9522ef7d5304952ef81b2c Samir Shrestha <theonlysamir@gmail.com> 1633801585 +0545	commit: student isnt queried on add
+0ea5fdaca0245ddb2e9522ef7d5304952ef81b2c da525835768bf0fb4f2e5ad41726aa58d8c23546 Samir Shrestha <theonlysamir@gmail.com> 1633805743 +0545	commit: Subject page added
+da525835768bf0fb4f2e5ad41726aa58d8c23546 62faddc328f74ca45298dabbe731131bd3be46c9 Samir Shrestha <theonlysamir@gmail.com> 1634064527 +0545	commit: Teachers page added
+62faddc328f74ca45298dabbe731131bd3be46c9 5d453a31f9f8277aaf9b71aa490f02938bc16097 Samir Shrestha <theonlysamir@gmail.com> 1634064696 +0545	commit: Edit Teacher updated
+5d453a31f9f8277aaf9b71aa490f02938bc16097 d9537ac534fe2d6b825cacfd679c6e443ba1c19e Samir Shrestha <theonlysamir@gmail.com> 1634810060 +0545	commit: SQC page added
+d9537ac534fe2d6b825cacfd679c6e443ba1c19e 56c897d9687586916948993dfabbda1c450bbc7f Samir Shrestha <theonlysamir@gmail.com> 1635012177 +0545	commit: Student Subject assign complete
+56c897d9687586916948993dfabbda1c450bbc7f 1afc0c62f9ba99efd375c71d448e1d87ad338f55 Samir Shrestha <theonlysamir@gmail.com> 1635533998 +0545	commit: Attendance page added
+1afc0c62f9ba99efd375c71d448e1d87ad338f55 d7cd66bff8b0e36a26787aa24ae720b2a353db08 Samir Shrestha <theonlysamir@gmail.com> 1635536556 +0545	commit: attendance page bug fix
