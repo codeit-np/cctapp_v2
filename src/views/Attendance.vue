@@ -203,6 +203,7 @@ export default {
           query: {
             batch_id: this.batch_id,
             term_id: this.term_id,
+            faculty_id: this.faculty_id,
             subject_id: this.subject_id,
             start_date: this.from.toISOString(),
             end_date: this.to.toISOString(),
