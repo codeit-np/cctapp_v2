@@ -12,6 +12,10 @@
             <el-card shadow="hover">Attendance Report</el-card>
           </div>
 
+          <div class="col-lg-4 col-md-6"  @click="$router.push({ name: 'Teacher Attendance' })">
+            <el-card shadow="hover">Teacher Attendance Report</el-card>
+          </div>
+
           <div class="col-lg-4 col-md-6">
             <el-card shadow="hover">SQC Report</el-card>
           </div>
