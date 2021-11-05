@@ -18,6 +18,7 @@ import StudentSubject from '../views/StudentSubject.vue'
 import Attendance from '../views/Attendance.vue'
 import TeacherAttendance from '../views/TeacherAttendance.vue'
 import TeacherReports from '../views/TeacherReports.vue'
+import LeaveRequests from '../views/LeaveRequests.vue'
 import store from '../store'
 import getUser from '../helpers/getUser'
 Vue.use(VueRouter)
@@ -113,6 +114,11 @@ const routes = [
         name:'Teacher Reports',
         path: '/teacher-reports',
         component: TeacherReports,
+      },
+      {
+        name:'Leave Requests',
+        path: '/leave-requests',
+        component: LeaveRequests,
       },
     ]
   },

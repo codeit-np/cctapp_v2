@@ -46,3 +46,23 @@ export function doGet({ query = {}, path = "" }) {
 
   return fetch(`${url}?${params}`, options);
 }
+
+export function doFetch({ url = "" }) {
+  
+  const token = localStorage.getItem("token");
+
+  const headers = {
+    accept: "application/json",
+  };
+
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  const options = {
+    method: "GET",
+    headers: headers,
+  };
+
+  return fetch(url, options);
+}
