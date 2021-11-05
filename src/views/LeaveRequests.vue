@@ -112,7 +112,7 @@
 <script>
 import DatePicker from "../components/sections/attendance/DatePicker.vue";
 import { doFetch, doGet } from "../helpers/request";
-import EditLeave from '../components/leaverequests/EditLeave.vue'
+import EditLeave from '../components/sections/leaverequests/EditLeave.vue'
 export default {
   components: {
     DatePicker,

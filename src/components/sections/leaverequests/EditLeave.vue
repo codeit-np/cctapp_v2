@@ -101,7 +101,7 @@
 </template>
 <script>
 import form from "vuejs-form";
-import { doGet, doPost } from "../../helpers/request";
+import { doGet, doPost } from "../../../helpers/request";
 export default {
   props: {
     value: Boolean,
