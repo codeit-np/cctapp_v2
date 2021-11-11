@@ -30,12 +30,7 @@
         <div class="col-md-6">
         <span>
             From: 
-            <el-date-picker
-                v-model="form.from"
-                type="date"
-                value-format="yyyy-MM-dd"
-                placeholder="Pick a day">
-            </el-date-picker>
+            <input type="date" v-model="form.from">
         </span>
         <div>
           <small class="text-danger" v-if="form.errors().has('from')">
@@ -50,12 +45,7 @@
       <div class="col-md-6">
         <span>
             To: 
-            <el-date-picker
-                v-model="form.to"
-                value-format="yyyy-MM-dd"
-                type="date"
-                placeholder="Pick a day">
-            </el-date-picker>
+           <input type="date" v-model="form.to">
         </span>
         <div>
           <small class="text-danger" v-if="form.errors().has('to')">
