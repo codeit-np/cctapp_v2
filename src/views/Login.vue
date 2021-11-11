@@ -24,7 +24,11 @@
                     v-model="password"
                     type="password"
                 />
+                <div class="text-center px-2">
+                 <router-link :to="{ name: 'Register'}">Register As A Teacher</router-link>
 
+                </div>
+               
                  <el-button class="float-end m-2" type="primary" round @click="login" :disabled="loading">
                      <span class="el-icon-mouse"></span>
                      Login</el-button>

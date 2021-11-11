@@ -50,35 +50,57 @@
       <i class="fas fa-book-reader"></i>
       <span slot="title">Assign Subjects</span>
     </el-menu-item>
-    <el-menu-item index="7">
-      <i class="fas fa-bell"></i>
-      <span slot="title">Manage Notifications</span>
-    </el-menu-item> 
-    <el-menu-item index="8" >
+   
+    <el-menu-item index="7" @click="logout">
       <i class="fas fa-sign-out-alt text-danger"></i>
       <span slot="title">Logout</span>
     </el-menu-item>
   </el-menu>
 </template>
 <script>
+import { doPost } from "../helpers/request";
+
 export default {
   data() {
     return {
       isCollapse: true,
     };
   },
+  methods:{
+    logout: async function () {
+    try {
+
+      await doPost({
+        path: "logout",
+      });
+
+      this.$store.commit("clearToken");
+
+  
+      this.$store.commit("setUser", null);
+      this.$store.commit("setIsAdmin", false);
+
+      this.$router.push({ path: "/login" });
+
+    } catch (err) {
+      this.$notify.error({
+        title: "Error",
+        message: err.message ||"Something Went Wrong",
+        position: "bottom-right",
+      });
+    }
+  },
+  }
 };
 </script>
 <style lang="scss" scoped>
-
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   min-width: 300px;
   max-width: 600px;
   width: 20%;
 }
 
-.el-menu-vertical-demo{
+.el-menu-vertical-demo {
   min-height: 100%;
-
 }
 </style>

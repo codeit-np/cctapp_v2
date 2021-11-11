@@ -1,190 +1,207 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import LandingPage from '../views/LandingPage.vue'
-import Batches from '../views/Batches.vue'
-import Terms from '../views/Terms.vue'
-import SubjectTypes from '../views/SubjectTypes.vue'
-import Faculties from '../views/Faculties.vue'
-import Students from '../views/Students.vue'
-import Subjects from '../views/Subjects.vue'
-import Teachers from '../views/Teachers.vue'
-import Sqcs from '../views/Sqcs.vue'
-import PendingTeachers from '../views/PendingTeachers.vue'
-import PendingSqcs from '../views/PendingSqcs.vue'
-import Home from '../views/Home.vue'
-import EditStudent from '../views/EditStudent.vue'
-import EditSqc from '../views/EditSqc.vue'
-import StudentSubject from '../views/StudentSubject.vue'
-import Attendance from '../views/Attendance.vue'
-import TeacherAttendance from '../views/TeacherAttendance.vue'
-import TeacherReports from '../views/TeacherReports.vue'
-import LeaveRequests from '../views/LeaveRequests.vue'
-import store from '../store'
-import getUser from '../helpers/getUser'
-Vue.use(VueRouter)
+import Vue from "vue";
+import VueRouter from "vue-router";
+import LandingPage from "../views/LandingPage.vue";
+import Batches from "../views/Batches.vue";
+import Terms from "../views/Terms.vue";
+import SubjectTypes from "../views/SubjectTypes.vue";
+import Faculties from "../views/Faculties.vue";
+import Students from "../views/Students.vue";
+import Subjects from "../views/Subjects.vue";
+import Teachers from "../views/Teachers.vue";
+import Sqcs from "../views/Sqcs.vue";
+import PendingTeachers from "../views/PendingTeachers.vue";
+import PendingSqcs from "../views/PendingSqcs.vue";
+import Home from "../views/Home.vue";
+import EditStudent from "../views/EditStudent.vue";
+import EditSqc from "../views/EditSqc.vue";
+import StudentSubject from "../views/StudentSubject.vue";
+import Attendance from "../views/Attendance.vue";
+import TeacherAttendance from "../views/TeacherAttendance.vue";
+import TeacherReports from "../views/TeacherReports.vue";
+import LeaveRequests from "../views/LeaveRequests.vue";
+import store from "../store";
+import getUser from "../helpers/getUser";
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
+    path: "/",
+    name: "Home",
     component: Home,
     meta: { requiresAuth: true },
     children: [
       {
-        name: 'Landing',
-        path: '/',
+        name: "Landing",
+        path: "/",
         component: LandingPage,
       },
       {
-        name:'Batches',
-        path: '/batches',
+        name: "Batches",
+        path: "/batches",
         component: Batches,
       },
       {
-        name:'Terms',
-        path: '/terms',
+        name: "Terms",
+        path: "/terms",
         component: Terms,
       },
       {
-        name:'Faculties',
-        path: '/faculties',
+        name: "Faculties",
+        path: "/faculties",
         component: Faculties,
       },
       {
-        name:'Subject Types',
-        path: '/subjecttypes',
+        name: "Subject Types",
+        path: "/subjecttypes",
         component: SubjectTypes,
       },
       {
-        name:'Students',
-        path: '/students',
+        name: "Students",
+        path: "/students",
         component: Students,
       },
       {
-        name:'Student',
-        path: '/student/:id',
+        name: "Student",
+        path: "/student/:id",
         component: EditStudent,
       },
       {
-        name:'Subjects',
-        path: '/subjects',
+        name: "Subjects",
+        path: "/subjects",
         component: Subjects,
       },
       {
-        name:'Teachers',
-        path: '/teachers',
+        name: "Teachers",
+        path: "/teachers",
         component: Teachers,
       },
       {
-        name:'Pending Teachers',
-        path: '/teachers/pending',
+        name: "Pending Teachers",
+        path: "/teachers/pending",
         component: PendingTeachers,
       },
       {
-        name:'SQCs',
-        path: '/sqcs',
+        name: "SQCs",
+        path: "/sqcs",
         component: Sqcs,
       },
       {
-        name:'Pending SQCs',
-        path: '/sqcs/pending',
+        name: "Pending SQCs",
+        path: "/sqcs/pending",
         component: PendingSqcs,
       },
       {
-        name:'SQC',
-        path: '/sqc/:id',
+        name: "SQC",
+        path: "/sqc/:id",
         component: EditSqc,
       },
       {
-        name:'Student Subject',
-        path: '/student-subject-assign',
+        name: "Student Subject",
+        path: "/student-subject-assign",
         component: StudentSubject,
       },
       {
-        name:'Attendance',
-        path: '/attendance',
+        name: "Attendance",
+        path: "/attendance",
         component: Attendance,
       },
       {
-        name:'Teacher Attendance',
-        path: '/teacher-attendance',
+        name: "Teacher Attendance",
+        path: "/teacher-attendance",
         component: TeacherAttendance,
       },
       {
-        name:'Teacher Reports',
-        path: '/teacher-reports',
+        name: "Teacher Reports",
+        path: "/teacher-reports",
         component: TeacherReports,
       },
       {
-        name:'Leave Requests',
-        path: '/leave-requests',
+        name: "Leave Requests",
+        path: "/leave-requests",
         component: LeaveRequests,
       },
-    ]
+    ],
   },
   {
-    path: '/about',
-    name: 'About',
+    path: "/about",
+    name: "About",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-    meta: { requiresAuth: true }
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    meta: { requiresAuth: true },
   },
   {
-    path: '/login',
-    name: 'Login',
+    path: "/login",
+    name: "Login",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "auth" */ '../views/Login.vue'),
-    meta: { guest: true }
-  }
-]
+    component: () =>
+      import(/* webpackChunkName: "auth" */ "../views/Login.vue"),
+    meta: { guest: true },
+  },
+  {
+    path: "/register",
+    name: "Register",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "auth" */ "../views/Register.vue"),
+    meta: { guest: true },
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-const checkUserIsAdmin= async ()=>{
-  if(store.state.isAdmin ) return true;
+const checkUserIsAdmin = async () => {
+    try{
+      if (store.state.isAdmin) return true;
+      if(store.state.token){
+        store.commit("setLoading", true);
+        const {err, user } = await getUser();
+        if(err){
+         return false;
+        }
+        if (!user) return false;
+        store.commit("setUser", user || {});
+        store.commit("setIsAdmin", user.is_admin || false);
+        return store.state.isAdmin;
+      }
+    
+      return false;
+    }catch(err){
+      console.log(err)
+    }finally{
+      store.commit("setLoading", false);
 
-  if(store.state.token && !store.state.user){
-    store.commit('setLoading', true);
-    const {user} = await getUser();
-    store.commit('setUser', user||{});
-    store.commit('setIsAdmin', user.is_admin || false);
-    store.commit('setLoading', false);
-    return store.state.isAdmin
-  }
-
-  return false;
-}
-
-
-router.beforeResolve(async (to,from,next)=>{
-
-  if(to.matched.some(record=> record.meta.requiresAuth)){
-    if(await checkUserIsAdmin()){
-      next();
-    } else{
-      next({
-        path: '/login',
-        query: { redirect: to.fullPath }
-      })
-    } 
-  }
-  else if(to.matched.some(record=> record.meta.guest)){
-    if(!await checkUserIsAdmin()){
-      next();
-    } else{
-      next({ name: 'Home' });
     }
-  } else{
+};
+
+router.beforeResolve(async (to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (await checkUserIsAdmin()) {
+      next();
+    } else {
+      next({
+        path: "/login",
+      });
+    }
+  } else if (to.matched.some((record) => record.meta.guest)) {
+    if (!(await checkUserIsAdmin())) {
+      next();
+    } else {
+      next({ name: "Home" });
+    }
+  } else {
     next();
   }
-})
+});
 
-export default router
+export default router;

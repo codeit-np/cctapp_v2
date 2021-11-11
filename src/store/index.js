@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token: localStorage.getItem('token'),
+    token: localStorage.getItem('token') || null,
     user: null,
     isAdmin: false,
     loading: false
@@ -14,6 +14,10 @@ export default new Vuex.Store({
     setToken(state, token){
       state.token = token
       localStorage.setItem('token', token)
+    },
+    clearToken(state){
+      state.token = null;
+      localStorage.removeItem('token')
     },
     setUser(state, user){
       state.user = user
