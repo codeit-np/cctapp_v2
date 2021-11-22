@@ -1,7 +1,7 @@
 <template lang="">
   <div class="container-fluid">
     <create v-model="openCreate" @success="fetchSQCs" />
-    <!-- <send-notifications v-model="openNotification" /> -->
+    <send-notifications v-model="openNotification" :user_ids="user_ids" />
     <el-skeleton v-if="loading" :rows="10" animated />
     <el-card v-else>
       <div slot="header" class="clearfix">
@@ -13,7 +13,7 @@
         >
           <i class="fa fa-plus" aria-hidden="true"></i> Add
         </el-button>
-        <!-- <el-button
+        <el-button
           @click="openNotification = true"
           :user_ids="user_ids"
           style="float: right; padding: 3px"
@@ -21,7 +21,7 @@
           type="text"
         >
           <i class="fa fa-microphone" aria-hidden="true"></i> Notification
-        </el-button> -->
+        </el-button>
         <el-button
           @click="$router.push({ name: 'Pending SQCs' })"
           style="float: right; padding: 3px "
@@ -110,12 +110,12 @@
 <script>
 import { doGet, doPost } from "../helpers/request";
 import Create from "../components/sections/sqcs/CreateSqc.vue";
-// import SendNotifications from '../components/sections/notifications/SendNotifications.vue'
+import SendNotifications from '../components/sections/notifications/SendNotifications.vue'
 export default {
   data() {
     return {
       openCreate: false,
-      // openNotification:false,
+      openNotification:false,
       openEdit: false,
       activeID: null,
       sqcs: [],
@@ -124,13 +124,13 @@ export default {
   },
   components: {
     Create,
-    // SendNotifications
+    SendNotifications
   },
-  // computed:{
-  //   user_ids(){
-  //     return this.sqcs.map((sqc)=>sqc.id)
-  //   }
-  // },
+  computed:{
+    user_ids(){
+      return this.sqcs.map((sqc)=>sqc.id)
+    }
+  },
   methods: {
     fetchSQCs: async function() {
       try {

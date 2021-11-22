@@ -49,7 +49,10 @@ export default {
         }
         this.loading = true;
         const response = await doPost({
-          body: this.form.all(),
+          body: {
+            user_ids: this.user_ids,
+            message: this.form.message
+          },
           path: "sendnotification",
         });
         const data = await response.json();

@@ -55,7 +55,7 @@
     </el-card> 
        
       <div  class="table-responsive">
-          <datatable v-loading="loading" title="Teacher Attendances" :rows="attendances" :columns="headers"> </datatable>
+          <datatable v-loading="loading" title="SQC Report" :rows="attendances" :columns="headers"> </datatable>
       </div>
 
     </div>
