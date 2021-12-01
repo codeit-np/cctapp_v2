@@ -25,8 +25,10 @@
                     type="password"
                 />
                 <div class="text-center px-2">
+                 <router-link :to="{ name: 'Forgot Password'}">Forgot Password?</router-link>
+                </div>
+                <div class="text-center px-2">
                  <router-link :to="{ name: 'Register'}">Register As A Teacher</router-link>
-
                 </div>
                
                  <el-button class="float-end m-2" type="primary" round @click="login" :disabled="loading">
