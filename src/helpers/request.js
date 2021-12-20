@@ -3,10 +3,15 @@ export const baseUrl = process.env.NODE_ENV === "development"
     : `${window.location.origin}/api/`
 
 export function doPost({ method = "POST", body, path = "" }) {
+  const form = new FormData();
   const token = localStorage.getItem("token");
 
+  for (const [key, value] of Object.entries(body)) {
+    form.append(key,value);
+  }
+
   const headers = {
-    "content-type": "application/json",
+    // "content-type": "application/json",
     accept: "application/json",
   };
 
@@ -17,11 +22,12 @@ export function doPost({ method = "POST", body, path = "" }) {
   const options = {
     method: method,
     headers: headers,
-    body: JSON.stringify(body),
+    body: form,
   };
   const url = new URL(path, baseUrl).toString();
   return fetch(url, options);
 }
+
 
 export function doGet({ query = {}, path = "" }) {
   const token = localStorage.getItem("token");
