@@ -2,6 +2,8 @@
   <div class="container-fluid">
     <create v-model="openCreate" @success="fetchFaculties" />
     <edit v-model="openEdit" :id="activeID" @success="fetchFaculties" />
+    <post-csv v-model="openLoad" path="faculties/load" title="Load Faculties"/>
+
     <el-skeleton v-if="loading" :rows="10" animated />
     <el-card v-else>
       <div slot="header" class="clearfix">
@@ -13,6 +15,15 @@
         >
           <i class="fa fa-plus" aria-hidden="true"></i> Add
         </el-button>
+
+        <el-button
+          @click="openLoad = true"
+          style="float: right; padding: 3px 0"
+          type="text"
+        >
+         <i class="fa fa-upload" aria-hidden="true"></i> Load
+        </el-button>
+
       </div>
       <table class="table table-sm table-bordered">
         <thead>
@@ -71,11 +82,14 @@
 import { doGet, doPost } from "../helpers/request";
 import Create from "../components/sections/faculties/CreateFaculty.vue";
 import Edit from "../components/sections/faculties/EditFaculty.vue";
+import PostCsv from '../components/PostCsv.vue';
+
 
 export default {
   data() {
     return {
       openCreate: false,
+      openLoad:false,
       openEdit: false,
       activeID: null,
       faculties: [],
@@ -85,6 +99,7 @@ export default {
   components: {
     Create,
     Edit,
+    PostCsv,
   },
   methods: {
     fetchFaculties: async function () {

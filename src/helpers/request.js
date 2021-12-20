@@ -2,10 +2,10 @@ export const baseUrl = process.env.NODE_ENV === "development"
     ? "https://cctattendance.codeitapps.com/api/"
     : `${window.location.origin}/api/`
 
-export function doPost({ method = "POST", body, path = "" }) {
+export function doPost({ method = "POST", body={}, path = "" }) {
   const form = new FormData();
   const token = localStorage.getItem("token");
-
+  
   for (const [key, value] of Object.entries(body)) {
     form.append(key,value);
   }

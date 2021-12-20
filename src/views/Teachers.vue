@@ -3,6 +3,8 @@
     <create v-model="openCreate" @success="fetchTeachers" />
     <edit v-model="openEdit" :id="activeID" />
     <send-notifications v-model="openNotification"  :user_ids="user_ids"/>
+    <post-csv v-model="openLoad" path="teachers/load" title="Load Teachers"/>
+
     <el-skeleton v-if="loading" :rows="10" animated />
     <el-card v-else>
       <div slot="header" class="clearfix">
@@ -23,6 +25,15 @@
         >
           <i class="fa fa-microphone" aria-hidden="true"></i> Notification
         </el-button>
+
+        <el-button
+          @click="openLoad = true"
+          style="float: right; padding: 3px 0"
+          type="text"
+        >
+         <i class="fa fa-upload" aria-hidden="true"></i> Load
+        </el-button>
+
         <el-button
           @click="$router.push({ name: 'Pending Teachers' })"
           style="float: right; padding: 3px 0"
@@ -121,12 +132,14 @@ import { doGet, doPost } from "../helpers/request";
 import Create from "../components/sections/teachers/CreateTeacher.vue";
 import Edit from "../components/sections/teachers/EditTeacher.vue";
 import SendNotifications from '../components/sections/notifications/SendNotifications.vue'
+import PostCsv from '../components/PostCsv.vue';
 
 export default {
   data() {
     return {
       openCreate: false,
       openNotification:false,
+      openLoad:false,
       openEdit: false,
       activeID: null,
       teachers: [],
@@ -136,7 +149,8 @@ export default {
   components: {
     Create,
     Edit,
-    SendNotifications
+    SendNotifications,
+    PostCsv
   },
   computed:{
     user_ids(){

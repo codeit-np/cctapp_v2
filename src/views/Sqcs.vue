@@ -2,6 +2,8 @@
   <div class="container-fluid">
     <create v-model="openCreate" @success="fetchSQCs" />
     <send-notifications v-model="openNotification" :user_ids="user_ids" />
+    <post-csv v-model="openLoad" path="sqcs/load" title="Load SQCs"/>
+
     <el-skeleton v-if="loading" :rows="10" animated />
     <el-card v-else>
       <div slot="header" class="clearfix">
@@ -22,6 +24,17 @@
         >
           <i class="fa fa-microphone" aria-hidden="true"></i> Notification
         </el-button>
+
+
+        <el-button
+          @click="openLoad = true"
+          style="float: right; padding: 3px 0"
+          type="text"
+        >
+         <i class="fa fa-upload" aria-hidden="true"></i> Load
+        </el-button>
+
+
         <el-button
           @click="$router.push({ name: 'Pending SQCs' })"
           style="float: right; padding: 3px "
@@ -111,11 +124,14 @@
 import { doGet, doPost } from "../helpers/request";
 import Create from "../components/sections/sqcs/CreateSqc.vue";
 import SendNotifications from '../components/sections/notifications/SendNotifications.vue'
+import PostCsv from '../components/PostCsv.vue';
+
 export default {
   data() {
     return {
       openCreate: false,
       openNotification:false,
+      openLoad:false,
       openEdit: false,
       activeID: null,
       sqcs: [],
@@ -124,7 +140,9 @@ export default {
   },
   components: {
     Create,
-    SendNotifications
+    SendNotifications,
+    PostCsv
+
   },
   computed:{
     user_ids(){

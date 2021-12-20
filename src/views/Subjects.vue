@@ -2,6 +2,7 @@
   <div class="container-fluid">
     <create v-model="openCreate" />
     <edit v-model="openEdit" :id="activeID" />
+    <post-csv v-model="openLoad" path="subjects/load" title="Load Subjects"/>
     <el-card v-loading="metaLoading">
       <div class="d-flex space-between justify-content-between flex-column flex-lg-row px-4">
         <el-select class="my-1" v-model="subject_type_id" placeholder="Select Subject Type">
@@ -52,6 +53,15 @@
         >
           <i class="fa fa-plus" aria-hidden="true"></i> Add
         </el-button>
+
+        <el-button
+          @click="openLoad = true"
+          style="float: right; padding: 3px 0"
+          type="text"
+        >
+         <i class="fa fa-upload" aria-hidden="true"></i> Load
+        </el-button>
+
       </div>
       <div class="table-responsive">
        
@@ -138,11 +148,12 @@
 import { doGet, doPost } from "../helpers/request";
 import Create from "../components/sections/subjects/CreateSubject.vue";
 import Edit from "../components/sections/subjects/EditSubject.vue";
-
+import PostCsv from '../components/PostCsv.vue';
 export default {
   data() {
     return {
       openCreate: false,
+      openLoad: false,
       openEdit: false,
       activeId: null,
       activeID: null,
@@ -160,6 +171,7 @@ export default {
   components: {
     Create,
     Edit,
+    PostCsv,
   },
   methods: {
     handleOpenEdit(id) {

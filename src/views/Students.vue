@@ -1,6 +1,7 @@
 <template lang="">
   <div class="container-fluid">
     <create v-model="openCreate"  />
+    <post-csv v-model="openLoad" path="students/load" title="Load Students"/>
     <el-card v-loading="metaLoading">
       <div class="d-flex space-between justify-content-between flex-column flex-lg-row px-4">
         <el-select class="my-1" v-model="batch_id" placeholder="Select Batch">
@@ -50,6 +51,15 @@
         >
           <i class="fa fa-plus" aria-hidden="true"></i> Add
         </el-button>
+
+        <el-button
+          @click="openLoad = true"
+          style="float: right; padding: 3px 0"
+          type="text"
+        >
+         <i class="fa fa-upload" aria-hidden="true"></i> Load
+        </el-button>
+
       </div>
       <div class="table-responsive">
        
@@ -147,12 +157,14 @@
 import { doGet, doPost } from "../helpers/request";
 import Create from "../components/sections/students/CreateStudent.vue";
 // import Edit from "../components/sections/batches/EditBatch.vue";
+import PostCsv from '../components/PostCsv.vue';
 
 export default {
   data() {
     return {
       openCreate: false,
       openEdit: false,
+      openLoad:false,
       activeID: null,
       students: [],
       batches: [],
@@ -168,6 +180,7 @@ export default {
   },
   components: {
     Create,
+    PostCsv
     // Edit,
   },
   methods: {
