@@ -49,9 +49,7 @@
             <el-card shadow="hover">Assign Subjects</el-card>
           </div>
 
-          <div class="col-lg-4 col-md-6">
-            <el-card shadow="hover">Manage Notifications</el-card>
-          </div>
+         
         </div>
 
         <div class="row gy-4 my-4">
