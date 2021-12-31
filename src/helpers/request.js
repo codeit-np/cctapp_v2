@@ -5,7 +5,11 @@ export const baseUrl = process.env.NODE_ENV === "development"
 export function doPost({ method = "POST", body={}, path = "" }) {
   const form = new FormData();
   const token = localStorage.getItem("token");
-  
+
+  if(method !== 'POST'){
+    form.append('_method', method)
+  }
+
   for (const [key, value] of Object.entries(body)) {
     form.append(key,value);
   }
@@ -20,7 +24,7 @@ export function doPost({ method = "POST", body={}, path = "" }) {
   }
 
   const options = {
-    method: method,
+    method: 'POST',
     headers: headers,
     body: form,
   };

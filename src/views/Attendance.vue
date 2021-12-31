@@ -219,16 +219,20 @@ export default {
         const studentsSet = new Set();
         const topicsSet = new Set();
         const attendanceSet = {};
-
+        const topicsKeys = [];
         attendences.forEach((attendance) => {
           studentsSet.add(attendance.student);
-          topicsSet.add({
-            teacher_id: attendance.teacher.id,
-            teacher_name: attendance.teacher.name,
-            topic: attendance.topic,
-            subject: attendance.subject.title,
-            date: attendance.date,
-          });
+          const topicKey = `${attendance.teacher.id}-${attendance.topic}-${attendance.subject.title}-${attendance.date}`
+          if(!topicsKeys.includes(topicKey)){
+            topicsSet.add({
+              teacher_id: attendance.teacher.id,
+              teacher_name: attendance.teacher.name,
+              topic: attendance.topic,
+              subject: attendance.subject.title,
+              date: attendance.date,
+            });
+            topicsKeys.push(topicKey)
+          }
           if (!attendanceSet[`${attendance.student.id}`]) {
             attendanceSet[`${attendance.student.id}`] = {};
           }
