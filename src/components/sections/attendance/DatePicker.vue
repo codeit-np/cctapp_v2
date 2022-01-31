@@ -3,6 +3,7 @@
   v-model="date"
   type="daterange"
   align="right"
+  value-format="yyyy-MM-dd"
   unlink-panels
   range-separator="-"
   start-placeholder="Start date"
@@ -84,8 +85,8 @@ export default {
         return [this.from, this.to]
       },
       set(newValue) {
-        this.$emit('update:from', new Date(newValue[0]))
-        this.$emit('update:to', new Date(newValue[1]))
+        this.$emit('update:from', newValue[0])
+        this.$emit('update:to', newValue[1])
       },
     },
   }

@@ -143,8 +143,8 @@ export default {
       loading: false,
       teacher_id: null,
       metaLoading: false,
-      from: new Date(),
-      to: new Date(),
+      from: (new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000) )).toISOString().split("T")[0],
+      to:(new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000) )).toISOString().split("T")[0],
     };
   },
   mounted() {
@@ -259,8 +259,8 @@ export default {
             term_id: this.term_id,
             faculty_id: this.faculty_id,
             subject_id: this.subject_id,
-            start_date: this.from.toISOString(),
-            end_date: this.to.toISOString(),
+            start_date: this.from,
+            end_date: this.to,
           },
         });
 

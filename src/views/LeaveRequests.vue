@@ -130,8 +130,8 @@ export default {
       teacher_id: null,
       status: null,
       metaLoading: false,
-      from: new Date(),
-      to: new Date(),
+      from: (new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000) )).toISOString().split("T")[0],
+      to:(new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000) )).toISOString().split("T")[0],
     };
   },
   mounted() {
@@ -185,8 +185,8 @@ export default {
           query: {
             teacher_id: this.teacher_id,
             status: this.status,
-            start_date: this.from.toISOString(),
-            end_date: this.to.toISOString(),
+            start_date: this.from,
+            end_date: this.to,
           },
         });
 
