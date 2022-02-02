@@ -1,5 +1,5 @@
 export const baseUrl = process.env.NODE_ENV === "development"
-    ? "https://app.cctdharan.edu.np/api/"
+    ? "https://cctattendance.codeitapps.com/api/"
     : `${window.location.origin}/api/`
 
 export function doPost({ method = "POST", body={}, path = "" }) {
