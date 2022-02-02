@@ -49,7 +49,7 @@
 
         <date-picker :from.sync="from" :to.sync="to"/> 
 
-        <el-button class="my-1" v-loading="loading" @click="fetchAttendance" type="primary">Fetch Attendance</el-button>
+        <el-button class="my-1" v-loading="loading" @click="fetchAttendance" type="primary">Show Attendance</el-button>
 
       </div>
     </el-card> 
@@ -216,15 +216,18 @@ export default {
         }
 
         const attendences = data.data;
-        const studentsSet = new Set();
-        const topicsSet = new Set();
+        
         const attendanceSet = {};
         const topicsKeys = [];
+        const studentKeys = [];
         attendences.forEach((attendance) => {
-          studentsSet.add(attendance.student);
+          if(!studentKeys.includes(attendance.student.id)){
+            this.students.push(attendance.student);
+            studentKeys.push(attendance.student.id)  
+          }
           const topicKey = `${attendance.teacher.id}-${attendance.topic}-${attendance.subject.title}-${attendance.date}`
           if(!topicsKeys.includes(topicKey)){
-            topicsSet.add({
+            this.topics.push({
               teacher_id: attendance.teacher.id,
               teacher_name: attendance.teacher.name,
               topic: attendance.topic,
@@ -241,8 +244,6 @@ export default {
           ] = attendance.present;
         });
 
-        this.students = Array.from(studentsSet);
-        this.topics = Array.from(topicsSet);
         
         //Headers For Table
 
@@ -270,6 +271,12 @@ export default {
           const attendance = {};
           attendance.name = student['name'];
           this.topics.forEach((topic) => {
+            if(attendanceSet[`${student.id}`][
+                `${topic.teacher_id}-${topic.date}-${topic.topic}-${topic.subject}`
+              ]==undefined){
+                 attendance[topic.id] = 'N/A'
+                 return;
+              }
             attendance[topic.id] =
               attendanceSet[`${student.id}`][
                 `${topic.teacher_id}-${topic.date}-${topic.topic}-${topic.subject}`

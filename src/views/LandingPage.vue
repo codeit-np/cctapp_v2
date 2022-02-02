@@ -46,7 +46,7 @@
           </div>
 
           <div class="col-lg-4 col-md-6" @click="$router.push({ name: 'Student Subject' })">
-            <el-card shadow="hover">Assign Subjects</el-card>
+            <el-card shadow="hover">Assign Subjects To Students</el-card>
           </div>
 
          
