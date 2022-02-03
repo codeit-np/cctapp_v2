@@ -2,7 +2,7 @@ export const baseUrl = process.env.NODE_ENV === "development"
     ? "https://cctattendance.codeitapps.com/api/"
     : `${window.location.origin}/api/`
 
-export function doPost({ method = "POST", body={}, path = "" }) {
+export function doPostForm({ method = "POST", body={}, path = "" }) {
   const form = new FormData();
   const token = localStorage.getItem("token");
 
@@ -32,6 +32,29 @@ export function doPost({ method = "POST", body={}, path = "" }) {
   return fetch(url, options);
 }
 
+export function doPost({ method = "POST", body={}, path = "" }) {
+ 
+  const token = localStorage.getItem("token");
+
+
+
+  const headers = {
+    "content-type": "application/json",
+    accept: "application/json",
+  };
+
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  const options = {
+    method: method,
+    headers: headers,
+    body: JSON.stringify(body),
+  };
+  const url = new URL(path, baseUrl).toString();
+  return fetch(url, options);
+}
 
 export function doGet({ query = {}, path = "" }) {
   const token = localStorage.getItem("token");

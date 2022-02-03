@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-
+    
     <select-students v-model="form.student_ids"></select-students>
     <br>
     <select-subjects v-model="form.subject_ids"></select-subjects>
@@ -34,10 +34,12 @@ export default {
     handleSubmit: async function () {
       try {
         this.loading = true;
+        console.log(this.form.all())
         const response = await doPost({
           body: this.form.all(),
           path: "studentassign",
         });
+        
         const data = await response.json();
 
         if (!response.ok) {
