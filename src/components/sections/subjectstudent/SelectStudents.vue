@@ -45,7 +45,7 @@
             <div class="d-flex flex-wrap">
                 <span class="d-block m-2 badge rounded-pill bg-light text-dark" v-for="student in students" :key="student.id">
                     <input type="checkbox" class="px-1" :id="student.name" :value="student.id" v-model="model">
-                    <label :for="student.name" class="px-1" >{{ student.name }}</label>
+                    <label :for="student.name" class="px-1" >{{student.roll_no}} - {{ student.name }}</label>
                 </span>
             </div>
         </div>

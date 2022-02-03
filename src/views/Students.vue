@@ -75,6 +75,9 @@
             <th class="text-center">
               Mobile
             </th>
+             <th class="text-center">
+              Roll No
+            </th>
             <th class="text-center">
               Gender
             </th>
@@ -105,6 +108,9 @@
             </td>
             <td class="text-center">
               {{ student.mobile }}
+            </td>
+            <td class="text-center">
+              {{ student.roll_no }}
             </td>
             <td class="text-center">
               {{ student.gender }}

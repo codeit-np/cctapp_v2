@@ -36,6 +36,24 @@
             </small>
           </div>
         </div>
+
+        <div class="col-md-6">
+          <el-input
+            placeholder="Roll No"
+            label="Roll No"
+            type="number"
+            v-model="form.roll_no"
+          />
+          <div>
+            <small class="text-danger" v-if="form.errors().has('roll_no')">
+              {{ form.errors().get("roll_no") }}
+            </small>
+
+            <small class="text-danger">
+              {{ errors.roll_no }}
+            </small>
+          </div>
+        </div>
       </div>
 
       <div class="row p-2 gy-2">
@@ -178,12 +196,14 @@ export default {
         mobile: "",
         batch_id: null,
         faculty_id: null,
+        roll_no: null,
         term_id: null,
         gender: null,
         student_status: null,
       })
         .rules({
           name: "required",
+          roll_no: "required|numeric",
           //   mobile: ["digits:10",],
           batch_id: "required",
           faculty_id: "required",
@@ -363,6 +383,7 @@ export default {
         this.form.faculty_id = data.data.faculty.id;        
         this.form.batch_id = data.data.batch.id;        
         this.form.term_id = data.data.term.id; 
+        this.form.roll_no = data.data.roll_no; 
 
       } catch (err) {
         this.$notify.error({
