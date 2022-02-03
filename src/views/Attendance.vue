@@ -3,38 +3,10 @@
       <el-card v-loading="metaLoading">
       <div class="d-flex flex-wrap space-between justify-content-between flex-column flex-lg-row px-4">
         
-        <el-select class="my-1" v-model="batch_id" placeholder="Select Batch">
-          <el-option label="All Batches" :value="null"> </el-option>
-          <el-option
-            v-for="batch in batches"
-            :key="batch.id"
-            :label="batch.year"
-            :value="batch.id"
-          >
-          </el-option>
-        </el-select>
-
-        <el-select class="my-1" v-model="faculty_id" placeholder="Select Faculty">
-          <el-option label="All Faculties" :value="null"> </el-option>
-          <el-option
-            v-for="faculty in faculties"
-            :key="faculty.id"
-            :label="faculty.title"
-            :value="faculty.id"
-          >
-          </el-option>
-        </el-select>
-
-        <el-select class="my-1" v-model="term_id" placeholder="Select Term">
-          <el-option label="All Terms" :value="null"> </el-option>
-          <el-option
-            v-for="term in terms"
-            :key="term.id"
-            :label="term.title"
-            :value="term.id"
-          >
-          </el-option>
-        </el-select>
+        <batches-drop-down v-model="batch_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
+        <faculties-drop-down v-model="faculty_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
+        <terms-drop-down v-model="term_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
+        
 
         <el-select class="my-1" v-model="subject_id" placeholder="Select Subjects">
           <el-option label="All Subjects" :value="null"> </el-option>
@@ -63,6 +35,9 @@
 
 </template>
 <script>
+import BatchesDropDown from '../components/Dropdowns/BatchesDropDown.vue'
+import FacultiesDropDown from '../components/Dropdowns/FacultiesDropDown.vue'
+import TermsDropDown from '../components/Dropdowns/TermsDropdown.vue'
 import DatePicker from "../components/sections/attendance/DatePicker.vue";
 import DataTable from "vue-materialize-datatable";
 import { doGet } from "../helpers/request";
@@ -72,15 +47,15 @@ export default {
   components: {
     DatePicker,
     datatable: DataTable,
+    BatchesDropDown,
+    FacultiesDropDown,
+    TermsDropDown
   },
   data() {
     return {
       students: [],
       topics: [],
       attendances: [],
-      batches: [],
-      terms: [],
-      faculties: [],
       subjects: [],
       headers: [],
       faculty_id: null,
@@ -94,9 +69,6 @@ export default {
     };
   },
   mounted() {
-    this.fetchTerms();
-    this.fetchFaculties();
-    this.fetchBatches();
     this.fetchSubjects();
   },
   computed: {
@@ -115,64 +87,6 @@ export default {
     },
   },
   methods: {
-    fetchBatches: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "batches" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-        this.batches = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message,
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
-    fetchFaculties: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "faculties" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-        this.faculties = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message,
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
-    fetchTerms: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "terms" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-
-        this.terms = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message || "Something went wrong",
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
     fetchSubjects: async function () {
       try {
         this.metaLoading = true;

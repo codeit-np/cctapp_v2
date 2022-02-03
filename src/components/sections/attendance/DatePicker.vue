@@ -14,8 +14,8 @@
 <script>
 export default {
   props:{
-    from: Date,
-    to: Date
+    from: String,
+    to: String
   },
   data() {
     return {

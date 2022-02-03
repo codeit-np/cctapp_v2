@@ -2,8 +2,8 @@
   <div>
     <assign v-model="openAssign" :student_id="id" />
     <remove v-model="openRemove" :student_id="id" />
-    <el-skeleton v-if="loading" :rows="10" animated />
-    <div v-else>
+    <!-- <el-skeleton v-if="loading" :rows="10" animated /> -->
+    <el-main v-loading="loading">
       <h4>Edit Student</h4>
       <div class="row p-2 gy-2">
         <div class="col-md-6">
@@ -40,20 +40,8 @@
 
       <div class="row p-2 gy-2">
         <div class="col-md-3">
-          <el-select
-            class="my-1"
-            v-model="form.batch_id"
-            placeholder="Select Batch"
-          >
-            <el-option
-              v-for="batch in batches"
-              :key="batch.id"
-              :label="batch.year"
-              :value="batch.id"
-            >
-            </el-option>
-          </el-select>
 
+          <batches-drop-down class="my-1" v-model="form.batch_id" :loading.sync="loading" :hasNull="false" />
           <div>
             <small class="text-danger" v-if="form.errors().has('batch_id')">
               {{ form.errors().get("batch_id") }}
@@ -66,19 +54,7 @@
         </div>
 
         <div class="col-md-3">
-          <el-select
-            class="my-1"
-            v-model="form.faculty_id"
-            placeholder="Select Faculty"
-          >
-            <el-option
-              v-for="faculty in faculties"
-              :key="faculty.id"
-              :label="faculty.title"
-              :value="faculty.id"
-            >
-            </el-option>
-          </el-select>
+          <faculties-drop-down class="my-1" v-model="form.faculty_id" :loading.sync="loading" :hasNull="false" />
           <div>
             <small class="text-danger" v-if="form.errors().has('faculty_id')">
               {{ form.errors().get("faculty_id") }}
@@ -90,19 +66,7 @@
           </div>
         </div>
         <div class="col-md-3">
-          <el-select
-            class="my-1"
-            v-model="form.term_id"
-            placeholder="Select Term"
-          >
-            <el-option
-              v-for="term in terms"
-              :key="term.id"
-              :label="term.title"
-              :value="term.id"
-            >
-            </el-option>
-          </el-select>
+          <terms-drop-down class="my-1" v-model="form.term_id" :loading.sync="loading" :hasNull="false" />
           <div>
             <small class="text-danger" v-if="form.errors().has('term_id')">
               {{ form.errors().get("term_id") }}
@@ -184,7 +148,7 @@
         >
           <i class="fa fa-minus" aria-hidden="true"></i> Remove Subject
         </el-button>
-    </div>
+    </el-main>
   </div>
 </template>
 <script>
@@ -192,6 +156,9 @@ import form from "vuejs-form";
 import { doGet, doPost } from "../helpers/request";
 import AssignSubject from "../components/sections/students/AssignSubject.vue"
 import RemoveSubject from "../components/sections/students/RemoveSubject.vue"
+import BatchesDropDown from '../components/Dropdowns/BatchesDropDown.vue'
+import FacultiesDropDown from '../components/Dropdowns/FacultiesDropDown.vue'
+import TermsDropDown from '../components/Dropdowns/TermsDropdown.vue'
 
 export default {
   props: {
@@ -200,6 +167,9 @@ export default {
   components:{
     assign: AssignSubject,
     remove: RemoveSubject,
+    BatchesDropDown,
+    FacultiesDropDown,
+    TermsDropDown,
   },
   data() {
     return {
@@ -227,10 +197,7 @@ export default {
           "term_id.required": "Term is required",
           "student_status.required": "Student Status is required",
         }),
-      terms: [],
       genders: [],
-      faculties: [],
-      batches: [],
       statuses: [],
       loading: false,
       submitting: false,
@@ -242,9 +209,6 @@ export default {
   },
   mounted() {
     this.fetchStudent();
-    this.fetchFaculties();
-    this.fetchBatches();
-    this.fetchTerms();
     this.fetchGenders();
     this.fetchStatuses();
   },
