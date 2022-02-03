@@ -19,7 +19,7 @@
 </template>
 <script>
 import form from "vuejs-form";
-import { doPost } from "../helpers/request";
+import { doPostForm } from "../helpers/request";
 export default {
   props: {
     value: Boolean,
@@ -52,7 +52,7 @@ export default {
           return;
         }
         this.loading = true;
-        const response = await doPost({
+        const response = await doPostForm({
           body: this.form.all(),
           path: this.path,
         });
