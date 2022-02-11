@@ -41,11 +41,13 @@
     </el-card>
     
     <el-card v-loading="loading">
+       <el-button class="my-1" v-if="students.length>0" @click="selectAll" type="primary">Select All</el-button>
+      <el-button class="my-1" v-if="students.length>0" @click="deselectAll" type="primary">Deselect All</el-button>
         <div class="container m-2">
             <div class="d-flex flex-wrap">
                 <span class="d-block m-2 badge rounded-pill bg-light text-dark" v-for="student in students" :key="student.id">
                     <input type="checkbox" class="px-1" :id="student.name" :value="student.id" v-model="model">
-                    <label :for="student.name" class="px-1" >{{student.roll_no}} - {{ student.name }}</label>
+                    <label :for="student.name" class="px-1" > <span v-if="student.roll_no!==null && student.roll_no!==undefined "> {{student.roll_no}} -  </span> {{ student.name }}</label>
                 </span>
             </div>
         </div>
@@ -82,6 +84,7 @@ export default {
    
     fetchStudents: async function () {
       try {
+        this.$emit('input',[]);
         this.loading = true;
         const response = await doGet({
           path: "students",
@@ -164,6 +167,15 @@ export default {
         this.metaLoading = false;
       }
     },
+    selectAll: function(){
+      const ids = this.students.map(student=>{
+        return student.id
+      })
+      this.$emit('input', ids)
+    },
+     deselectAll: function(){  
+      this.$emit('input', [])
+    }
   },
   computed: {
     model: {

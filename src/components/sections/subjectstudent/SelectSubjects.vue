@@ -42,6 +42,8 @@
     </el-card>
 
     <el-card v-loading="loading">
+      <el-button class="my-1" v-if="subjects.length>0" @click="selectAll" type="primary">Select All</el-button>
+      <el-button class="my-1" v-if="subjects.length>0" @click="deselectAll" type="primary">Deselect All</el-button>
         <div class="container m-2">
             <div class="d-flex flex-wrap">
                 <span class="d-block m-2 badge rounded-pill bg-light text-dark" v-for="subject in subjects" :key="subject.id">
@@ -142,6 +144,7 @@ export default {
     },
     fetchSubjects: async function () {
       try {
+        this.$emit('input',[]);
         this.loading = true;
         const response = await doGet({
           path: "subjects",
@@ -167,6 +170,15 @@ export default {
         this.loading = false;
       }
     },
+    selectAll: function(){
+      const ids = this.subjects.map(subject=>{
+        return subject.id
+      })
+      this.$emit('input', ids)
+    },
+     deselectAll: function(){  
+      this.$emit('input', [])
+    }
   },
   computed: {
     model: {
