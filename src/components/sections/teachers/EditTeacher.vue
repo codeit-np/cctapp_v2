@@ -78,7 +78,7 @@
       </div>
 
       <el-button type="primary" class="my-2" @click="handleSubmit" plain
-        >Edit Teacher</el-button
+        >Update Teacher</el-button
       >
     </el-card>
 

@@ -62,7 +62,7 @@
       </div>
 
       <el-button type="primary" class="my-2" @click="handleSubmit" plain
-        >Edit SQC</el-button
+        >Update SQC</el-button
       >
     </el-card>
 
