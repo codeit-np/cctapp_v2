@@ -55,7 +55,8 @@
     </el-card> 
        
       <div  class="table-responsive">
-          <datatable v-loading="loading" title="SQC Report" :rows="attendances" :columns="headers"> </datatable>
+          <datatable v-loading="loading" v-if="attendances.length>0" title="SQC Report" :rows="attendances" :columns="headers"> </datatable>
+          <div v-if="queried && attendances.length===0" class="text-danger p-4"> Sorry No Data Available</div>
       </div>
 
     </div>
@@ -79,6 +80,7 @@ export default {
       attendances: [],
       teachers: [],
       terms: [],
+      queried: false,
       faculties: [],
       subjects: [],
       headers: [
@@ -270,6 +272,7 @@ export default {
         }
 
         this.attendances = data.data;
+        this.queried = true;
       } catch (err) {
         console.log(err);
         this.$notify.error({

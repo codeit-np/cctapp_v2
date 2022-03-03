@@ -22,7 +22,8 @@
       </div>
     </el-card> 
         <div  class="table-responsive">
-            <datatable v-loading="loading" title="Teacher Reports" :rows="reports" :columns="headers"> </datatable>
+            <datatable v-loading="loading" v-if="reports.length>0" title="Teacher Reports" :rows="reports" :columns="headers"> </datatable>
+            <div v-if="queried && reports.length===0" class="text-danger p-4"> Sorry No Data Available</div>
         </div>
 
     </div>
@@ -43,6 +44,7 @@ export default {
     return {
       reports: [],
       teachers: [],
+      queried: false,
       headers: [
         {
           label: "Teacher Name",
@@ -111,6 +113,7 @@ export default {
         }
 
         this.reports = data.data;
+        this.queried = true;
       } catch (err) {
         console.log(err);
         this.$notify.error({
