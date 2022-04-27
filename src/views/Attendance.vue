@@ -137,10 +137,13 @@ export default {
         const topicsKeys = [];
         const studentKeys = [];
         attendences.forEach((attendance) => {
+
+          // Get Unique Students
           if(!studentKeys.includes(attendance.student.id)){
             this.students.push(attendance.student);
             studentKeys.push(attendance.student.id)  
           }
+          // Get Unique Topics
           const topicKey = `${attendance.teacher.id}-${attendance.topic}-${attendance.subject.title}-${attendance.date}`
           if(!topicsKeys.includes(topicKey)){
             this.topics.push({
@@ -149,12 +152,19 @@ export default {
               topic: attendance.topic,
               subject: attendance.subject.title,
               date: attendance.date,
+              faculty: attendance.faculty.title,
+              term: attendance.term.title 
             });
             topicsKeys.push(topicKey)
           }
+
+          // Group Attendance By Student
+
+            // Add Student record if not added already
           if (!attendanceSet[`${attendance.student.id}`]) {
             attendanceSet[`${attendance.student.id}`] = {};
           }
+            // Add Students attendance per topic
           attendanceSet[`${attendance.student.id}`][
             `${attendance.teacher.id}-${attendance.date}-${attendance.topic}-${attendance.subject.title}`
           ] = attendance.present;
@@ -174,25 +184,33 @@ export default {
 
        
         this.topics.forEach((topic) => {
+          // Get Topic Data
           topic.id = uuidv4();
           this.headers.push({
-            label: `${topic.subject}-${topic.topic}-${topic.teacher_name}-${topic.date}`,
+            label: `${topic.faculty}-${topic.term}-${topic.subject}-${topic.topic}-${topic.teacher_name}-${topic.date}`,
             field: topic.id, //Row Variable
           });
         });
 
         //Rows For Table
         this.attendances = []
+        // With All Student
         this.students.forEach((student) => {
           const attendance = {};
           attendance.name = student['name'];
+          // With All Topic Taken By Student
           this.topics.forEach((topic) => {
+            // Check if Student has attendacne of the topic
+
+            // if Not Print N/A
             if(attendanceSet[`${student.id}`][
                 `${topic.teacher_id}-${topic.date}-${topic.topic}-${topic.subject}`
               ]==undefined){
                  attendance[topic.id] = 'N/A'
                  return;
               }
+
+            // Else show of they are absent or Present
             attendance[topic.id] =
               attendanceSet[`${student.id}`][
                 `${topic.teacher_id}-${topic.date}-${topic.topic}-${topic.subject}`
@@ -200,7 +218,12 @@ export default {
                 ? "Present"
                 : "Absent";
           });
+          // attendences stores each student's attendance list per topic
+          // where each row is a student and its topicid is column data respective to the header
+          // [topic1, topic2]
+              //  student:{topic1: present, topic2:absent}
           this.attendances.push(attendance);
+
         });
         this.queried = true;
           
