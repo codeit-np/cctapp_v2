@@ -6,7 +6,7 @@
     @close="handleClose"
     width="90%">
       <input class="form-control" type="file" name="file" id="file" ref="file">
-       <small class="text-danger" v-if="form.errors().has('term_id')">
+       <small class="text-danger" v-if="form.errors().has('file')">
             {{ form.errors().get("file") }}
           </small>
 

@@ -23,6 +23,11 @@
           <div class="col-lg-4 col-md-6" @click="$router.push({ name: 'Leave Requests' })">
             <el-card shadow="hover">Leave Requests</el-card>
           </div>
+
+
+            <div class="col-lg-4 col-md-6" @click="$router.push({ name: 'Term Increment' })">
+            <el-card shadow="hover">Term Increment</el-card>
+            </div>
         </div>
 
 

@@ -120,6 +120,16 @@ const routes = [
         path: "/leave-requests",
         component: LeaveRequests,
       },
+      {
+        path: "/term-increment",
+        name: "Term Increment",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+          import(/* webpackChunkName: "home" */ "../views/TermIncrement.vue"),
+        meta: { requiresAuth: true },
+      },
     ],
   },
   {
@@ -132,6 +142,7 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
     meta: { requiresAuth: true },
   },
+  
   {
     path: "/login",
     name: "Login",
