@@ -99,60 +99,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(student, index) in students" :key="student.id">
-            <td>
-              {{ ++index }}
-            </td>
-            <td class="text-center">
-              {{ student.name }}
-            </td>
-            <td class="text-center">
-              {{ student.mobile }}
-            </td>
-            <td class="text-center">
-              {{ student.roll_no }}
-            </td>
-            <td class="text-center">
-              {{ student.gender }}
-            </td>
-            <td class="text-center">
-              {{ student.status }}
-            </td>
-            <td class="text-center">
-              {{ student.batch.year }}
-            </td>
-            <td class="text-center">
-              {{ student.term.title }}
-            </td>
-            <td class="text-center">
-              {{ student.faculty.title }}
-            </td>
-            <td>
-              <el-button
-                type="primary"
-                class="mx-1"
-                @click="handleOpenEdit(student.id)"
-                icon="el-icon-edit"
-                circle
-              ></el-button>
-              <el-popconfirm
-                confirm-button-text="OK"
-                cancel-button-text="No, Thanks"
-                icon="el-icon-info"
-                @confirm="handleDelete(student.id)"
-                icon-color="red"
-                title="Are you sure to delete this?"
-              >
-                <el-button
-                  slot="reference"
-                  type="danger"
-                  class="mx-1"
-                  icon="el-icon-delete"
-                  circle
-                ></el-button>
-              </el-popconfirm>
-            </td>
-          </tr>
+          <student-row  v-for="(student,index) in students" :student="student" :students.sync="students" :index="index" :key="student.id"/>
         </tbody>
       </table>
       </div>
@@ -160,9 +107,9 @@
   </div>
 </template>
 <script>
-import { doGet, doPost } from "../helpers/request";
+import { doGet } from "../helpers/request";
 import Create from "../components/sections/students/CreateStudent.vue";
-// import Edit from "../components/sections/batches/EditBatch.vue";
+import StudentRow from '../components/sections/students/StudentRow.vue'
 import PostCsv from '../components/PostCsv.vue';
 
 export default {
@@ -186,7 +133,8 @@ export default {
   },
   components: {
     Create,
-    PostCsv
+    PostCsv,
+    StudentRow
     // Edit,
   },
   methods: {
@@ -267,32 +215,7 @@ export default {
         this.metaLoading = false;
       }
     },
-    handleOpenEdit(id) {
-      this.$router.push({ name: 'Student', params: { id: id } })
-    },
-    handleDelete: async function(id) {
-      try {
-        const response = await doPost({
-          method: "DELETE",
-          path: `students/${id}`,
-        });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-        this.$notify({
-          title: "Success",
-          message: data.message || "Action was successful",
-          type: "success",
-        });
-        this.students = this.students.filter((student) => student.id !== id);
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message || "Something went Wrong.",
-        });
-      }
-    },
+    
   },
   mounted: function() {
       this.fetchTerms();
