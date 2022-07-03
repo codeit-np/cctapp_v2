@@ -8,6 +8,7 @@
         />
         <div class="row gy-4 my-4">
           <h4>Reports</h4>
+
           <div class="col-lg-4 col-md-6"  @click="$router.push({ name: 'Attendance' })">
             <el-card shadow="hover">Attendance Report</el-card>
           </div>
@@ -24,10 +25,11 @@
             <el-card shadow="hover">Leave Requests</el-card>
           </div>
 
+          <div class="col-lg-4 col-md-6" @click="$router.push({ name: 'Topic Reports' })">
+            <el-card shadow="hover">Topic Reports</el-card>
+          </div>
 
-            <div class="col-lg-4 col-md-6" @click="$router.push({ name: 'Term Increment' })">
-            <el-card shadow="hover">Term Increment</el-card>
-            </div>
+           
         </div>
 
 
@@ -54,7 +56,9 @@
             <el-card shadow="hover">Assign Subjects To Students</el-card>
           </div>
 
-         
+          <div class="col-lg-4 col-md-6" @click="$router.push({ name: 'Term Increment' })">
+            <el-card shadow="hover">Student Promotion</el-card>
+          </div>
         </div>
 
         <div class="row gy-4 my-4">

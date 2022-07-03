@@ -26,12 +26,12 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Home",
+  
     component: Home,
     meta: { requiresAuth: true },
     children: [
       {
-        name: "Landing",
+        name: "Home",
         path: "/",
         component: LandingPage,
       },
@@ -121,13 +121,23 @@ const routes = [
         component: LeaveRequests,
       },
       {
+        path: "/topic-reports",
+        name: "Topic Reports",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+          import(/* webpackChunkName: "topic" */ "../views/TopicReports.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
         path: "/term-increment",
         name: "Term Increment",
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-          import(/* webpackChunkName: "home" */ "../views/TermIncrement.vue"),
+          import(/* webpackChunkName: "term" */ "../views/TermIncrement.vue"),
         meta: { requiresAuth: true },
       },
     ],
