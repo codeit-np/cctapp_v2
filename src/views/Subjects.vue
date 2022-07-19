@@ -15,29 +15,17 @@
           >
           </el-option>
         </el-select>
-
-        <el-select class="my-1" v-model="faculty_id" placeholder="Select Faculty">
-          <el-option label="All Faculties" :value="null"> </el-option>
-          <el-option
-            v-for="faculty in faculties"
-            :key="faculty.id"
-            :label="faculty.title"
-            :value="faculty.id"
-          >
-          </el-option>
-        </el-select>
-
-        <el-select class="my-1" v-model="term_id" placeholder="Select Term">
-          <el-option label="All Terms" :value="null"> </el-option>
-          <el-option
-            v-for="term in terms"
-            :key="term.id"
-            :label="term.title"
-            :value="term.id"
-          >
-          </el-option>
-        </el-select>
-        
+ 
+        <faculties-dropdown
+          :loading.sync="metaLoading"
+          v-model="faculty_id"
+          :hasNull="true"
+        />
+        <terms-dropdown
+          :loading.sync="metaLoading"
+          v-model="term_id"
+          :hasNull="true"
+        />
         <el-button class="my-1" @click="fetchSubjects" type="primary">Search</el-button>
       </div>
     </el-card>
@@ -149,6 +137,8 @@ import { doGet, doPost } from "../helpers/request";
 import Create from "../components/sections/subjects/CreateSubject.vue";
 import Edit from "../components/sections/subjects/EditSubject.vue";
 import PostCsv from '../components/PostCsv.vue';
+import FacultiesDropdown from "../components/Dropdowns/FacultiesDropDown.vue";
+import TermsDropdown from "../components/Dropdowns/TermsDropdown.vue";
 export default {
   data() {
     return {
@@ -159,8 +149,6 @@ export default {
       activeID: null,
       subjects: [],
       subject_types: [],
-      terms: [],
-      faculties: [],
       subject_type_id: null,
       faculty_id: null,
       term_id: null,
@@ -172,6 +160,8 @@ export default {
     Create,
     Edit,
     PostCsv,
+    FacultiesDropdown,
+    TermsDropdown,
   },
   methods: {
     handleOpenEdit(id) {
@@ -197,45 +187,7 @@ export default {
         this.metaLoading = false;
       }
     },
-    fetchFaculties: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "faculties" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-        this.faculties = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message,
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
-    fetchTerms: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "terms" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-
-        this.terms = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message || "Something went wrong",
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
+   
     fetchSubjects: async function () {
       try {
         this.loading = true;
@@ -288,9 +240,7 @@ export default {
     },
   },
   mounted: function () {
-    this.fetchFaculties();
     this.fetchSubjectTypes();
-    this.fetchTerms();
   },
 };
 </script>

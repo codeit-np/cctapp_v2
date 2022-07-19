@@ -6,19 +6,8 @@
         <batches-drop-down v-model="batch_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
         <faculties-drop-down v-model="faculty_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
         <terms-drop-down v-model="term_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
+        <subjects-drop-down v-model="subject_id" :term_id="term_id" :faculty_id="faculty_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
         
-
-        <el-select class="my-1" v-model="subject_id" placeholder="Select Subjects">
-          <el-option label="All Subjects" :value="null"> </el-option>
-          <el-option
-            v-for="subject in filteredSubjects"
-            :key="subject.id"
-            :label="`${subject.title}- ${subject.term.title} - ${subject.faculty.title}`"
-            :value="subject.id"
-          >
-          </el-option>
-        </el-select>
-
         <date-picker :from.sync="from" :to.sync="to"/> 
 
         <el-button class="my-1" v-loading="loading" @click="fetchAttendance" type="primary">Show Attendance</el-button>
@@ -39,6 +28,7 @@
 import BatchesDropDown from '../components/Dropdowns/BatchesDropDown.vue'
 import FacultiesDropDown from '../components/Dropdowns/FacultiesDropDown.vue'
 import TermsDropDown from '../components/Dropdowns/TermsDropdown.vue'
+import SubjectsDropDown from '../components/Dropdowns/SubjectsDropdown.vue';
 import DatePicker from "../components/sections/attendance/DatePicker.vue";
 import DataTable from "vue-materialize-datatable";
 import { doGet } from "../helpers/request";
@@ -50,7 +40,8 @@ export default {
     datatable: DataTable,
     BatchesDropDown,
     FacultiesDropDown,
-    TermsDropDown
+    TermsDropDown,
+    SubjectsDropDown
   },
   data() {
     return {
@@ -58,7 +49,6 @@ export default {
       queried: false,
       topics: [],
       attendances: [],
-      subjects: [],
       headers: [],
       faculty_id: null,
       term_id: null,
@@ -70,47 +60,7 @@ export default {
       to:(new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000) )).toISOString().split("T")[0],
     };
   },
-  mounted() {
-    this.fetchSubjects();
-  },
-  computed: {
-    filteredSubjects() {
-      const subs = this.subjects.filter((subject) => {
-        const termFilter = this.term_id
-          ? subject.term.id == this.term_id
-          : true;
-        const facultyFilter = this.faculty_id
-          ? subject.faculty.id == this.faculty_id
-          : true;
-        return termFilter && facultyFilter;
-      });
-
-      return subs;
-    },
-  },
   methods: {
-    fetchSubjects: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({
-          path: "subjects",
-        });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-
-        this.subjects = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message || "Something went wrong",
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
     fetchAttendance: async function () {
       try {
         this.loading = true;

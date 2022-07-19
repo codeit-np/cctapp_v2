@@ -61,19 +61,11 @@
       </div>
 
       <div class="col-md-3">
-        <el-select
-          class="my-1"
+        <faculties-dropdown
+          :loading.sync="loading"
           v-model="form.faculty_id"
-          placeholder="Select Faculty"
-        >
-          <el-option
-            v-for="faculty in faculties"
-            :key="faculty.id"
-            :label="faculty.title"
-            :value="faculty.id"
-          >
-          </el-option>
-        </el-select>
+          :hasNull="true"
+        />
         <div>
           <small class="text-danger" v-if="form.errors().has('faculty_id')">
             {{ form.errors().get("faculty_id") }}
@@ -85,19 +77,11 @@
         </div>
       </div>
       <div class="col-md-3">
-        <el-select
-          class="my-1"
+        <terms-dropdown
+          :loading.sync="loading"
           v-model="form.term_id"
-          placeholder="Select Term"
-        >
-          <el-option
-            v-for="term in terms"
-            :key="term.id"
-            :label="term.title"
-            :value="term.id"
-          >
-          </el-option>
-        </el-select>
+          :hasNull="true"
+        />
         <div>
           <small class="text-danger" v-if="form.errors().has('term_id')">
             {{ form.errors().get("term_id") }}
@@ -118,10 +102,17 @@
 <script>
 import form from "vuejs-form";
 import { doGet, doPost } from "../../../helpers/request";
+import FacultiesDropdown from "@/components/Dropdowns/FacultiesDropDown.vue";
+import TermsDropdown from "@/components/Dropdowns/TermsDropdown.vue";
+
 export default {
   props: {
     value: Boolean,
     id: Number,
+  },
+  components:{
+    FacultiesDropdown,
+    TermsDropdown
   },
   data() {
     return {
@@ -144,8 +135,6 @@ export default {
           "faculty_id.required": "Faculty is required",
           "term_id.required": "Term is required",
         }),
-      terms: [],
-      faculties: [],
       subject_types: [],
       loading: false,
       errors: {},
@@ -153,9 +142,7 @@ export default {
   },
   mounted() {
     this.fetchSubject();
-    this.fetchFaculties();
     this.fetchSubjectTypes();
-    this.fetchTerms();
   },
   methods: {
     handleClose() {
@@ -209,45 +196,6 @@ export default {
         this.$notify.error({
           title: "Error",
           message: err.message,
-          position: "bottom-right",
-        });
-      } finally {
-        this.loading = false;
-      }
-    },
-    fetchFaculties: async function () {
-      try {
-        this.loading = true;
-        const response = await doGet({ path: "faculties" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-        this.faculties = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message,
-          position: "bottom-right",
-        });
-      } finally {
-        this.loading = false;
-      }
-    },
-    fetchTerms: async function () {
-      try {
-        this.loading = true;
-        const response = await doGet({ path: "terms" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-
-        this.terms = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message || "Something went wrong",
           position: "bottom-right",
         });
       } finally {

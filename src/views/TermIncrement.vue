@@ -169,7 +169,7 @@ export default {
     },
     fetchStatuses: async function () {
       try {
-        this.metaLoading = true;
+        this.actionLoading = true;
         const response = await doGet({ path: "studentstatus" });
         const data = await response.json();
         if (!response.ok) {
@@ -184,7 +184,7 @@ export default {
           position: "bottom-right",
         });
       } finally {
-        this.loading = false;
+        this.actionLoading = false;
       }
     },
     updateTerm: async function() {
