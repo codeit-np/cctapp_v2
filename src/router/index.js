@@ -1,24 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import LandingPage from "../views/LandingPage.vue";
-import Batches from "../views/Batches.vue";
-import Terms from "../views/Terms.vue";
-import SubjectTypes from "../views/SubjectTypes.vue";
-import Faculties from "../views/Faculties.vue";
-import Students from "../views/Students.vue";
-import Subjects from "../views/Subjects.vue";
-import Teachers from "../views/Teachers.vue";
-import Sqcs from "../views/Sqcs.vue";
-import PendingTeachers from "../views/PendingTeachers.vue";
-import PendingSqcs from "../views/PendingSqcs.vue";
 import Home from "../views/Home.vue";
-import EditStudent from "../views/EditStudent.vue";
-import EditSqc from "../views/EditSqc.vue";
-import StudentSubject from "../views/StudentSubject.vue";
-import Attendance from "../views/Attendance.vue";
-import TeacherAttendance from "../views/TeacherAttendance.vue";
-import TeacherReports from "../views/TeacherReports.vue";
-import LeaveRequests from "../views/LeaveRequests.vue";
 import store from "../store";
 import getUser from "../helpers/getUser";
 Vue.use(VueRouter);
@@ -26,7 +9,6 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-  
     component: Home,
     meta: { requiresAuth: true },
     children: [
@@ -38,87 +20,104 @@ const routes = [
       {
         name: "Batches",
         path: "/batches",
-        component: Batches,
+        component: () =>
+          import(/* webpackChunkName: "batches" */ "../views/Batches.vue"),
       },
       {
         name: "Terms",
         path: "/terms",
-        component: Terms,
+        component: () =>
+          import(/* webpackChunkName: "terms" */ "../views/Terms.vue"),
       },
       {
         name: "Faculties",
         path: "/faculties",
-        component: Faculties,
+        component: () =>
+          import(/* webpackChunkName: "faculties" */ "../views/Faculties.vue"),
       },
       {
         name: "Subject Types",
         path: "/subjecttypes",
-        component: SubjectTypes,
+        component: () =>
+          import(/* webpackChunkName: "subject_types" */ "../views/SubjectTypes.vue"),
       },
       {
         name: "Students",
         path: "/students",
-        component: Students,
+        component: () =>
+          import(/* webpackChunkName: "students" */ "../views/Students.vue"),
       },
       {
         name: "Student",
         path: "/student/:id",
-        component: EditStudent,
+        component: () =>
+          import(/* webpackChunkName: "edit_students" */ "../views/EditStudent.vue"),
       },
       {
         name: "Subjects",
         path: "/subjects",
-        component: Subjects,
+        component: () =>
+          import(/* webpackChunkName: "subjects" */ "../views/Subjects.vue"),
       },
       {
         name: "Teachers",
         path: "/teachers",
-        component: Teachers,
+        component: () =>
+          import(/* webpackChunkName: "teachers" */ "../views/Teachers.vue"),
       },
       {
         name: "Pending Teachers",
         path: "/teachers/pending",
-        component: PendingTeachers,
+        component: () =>
+          import(/* webpackChunkName: "pending_teachers" */ "../views/PendingTeachers.vue"),
       },
       {
         name: "SQCs",
         path: "/sqcs",
-        component: Sqcs,
+        component: () =>
+          import(/* webpackChunkName: "sqcs" */ "../views/Sqcs.vue"),
       },
       {
         name: "Pending SQCs",
         path: "/sqcs/pending",
-        component: PendingSqcs,
+        component: () =>
+          import(/* webpackChunkName: "pending_sqcs" */ "../views/PendingSqcs.vue"),
       },
       {
         name: "SQC",
         path: "/sqc/:id",
-        component: EditSqc,
+        component: () =>
+          import(/* webpackChunkName: "edit_sqc" */ "../views/EditSqc.vue"),
       },
       {
         name: "Student Subject",
         path: "/student-subject-assign",
-        component: StudentSubject,
+        component: () =>
+          import(/* webpackChunkName: "student_subject" */ "../views/StudentSubject.vue"),
       },
       {
         name: "Attendance",
         path: "/attendance",
-        component: Attendance,
+        component: () =>
+          import(/* webpackChunkName: "attendance" */ "../views/Attendance.vue"),
       },
       {
         name: "Teacher Attendance",
         path: "/teacher-attendance",
-        component: TeacherAttendance,
+        component: () =>
+        import(/* webpackChunkName: "teacher_attendance" */ "../views/TeacherAttendance.vue"),
       },
       {
         name: "Teacher Reports",
         path: "/teacher-reports",
-        component: TeacherReports,
+        component: () =>
+          import(/* webpackChunkName: "teacher_reports" */ "../views/TeacherReports.vue"),
       },
       {
         name: "Leave Requests",
         path: "/leave-requests",
-        component: LeaveRequests,
+        component: () =>
+          import(/* webpackChunkName: "leave_requests" */ "../views/LeaveRequests.vue"),
       },
       {
         path: "/topic-reports",
@@ -137,7 +136,7 @@ const routes = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-          import(/* webpackChunkName: "term" */ "../views/TermIncrement.vue"),
+          import(/* webpackChunkName: "term-increment" */ "../views/TermIncrement.vue"),
         meta: { requiresAuth: true },
       },
     ],
