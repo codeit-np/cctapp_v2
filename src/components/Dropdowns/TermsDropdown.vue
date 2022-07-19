@@ -1,5 +1,5 @@
 <template >
-  <el-select v-model="term_id" placeholder="Select Term">
+  <el-select v-model="term_id" filterable placeholder="Select Term">
     <el-option v-if="hasNull" label="All Terms" :value="null"> </el-option>
     <el-option
       v-for="term in terms"
@@ -12,6 +12,7 @@
 </template>
 <script>
 import { doGet } from "../../helpers/request";
+import {mapState,mapActions} from 'vuex'
 export default {
   props: {
     value: Number,
@@ -20,9 +21,10 @@ export default {
   },
   data() {
     return {
-      terms: [],
+      // terms: [],
     };
   },
+ 
   methods: {
     fetchTerms: async function () {
       try {
@@ -44,11 +46,18 @@ export default {
         this.$emit("update:loading", false);
       }
     },
+    ...mapActions('terms',[
+      'load'
+    ]),
   },
   mounted() {
-    this.fetchTerms();
+    this.load();
   },
   computed: {
+    ...mapState('terms',{
+      terms: state=> state.terms,
+      data_loading: state => state.loading
+    }),
     term_id: {
       get() {
         return this.value;
@@ -58,6 +67,11 @@ export default {
       },
     },
   },
+  watch:{
+    data_loading(newValue){
+       this.$emit("update:loading", newValue);
+    }
+  }
 };
 </script>
 <style >

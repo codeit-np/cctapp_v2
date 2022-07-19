@@ -1,6 +1,7 @@
 <template >
   <el-select
     v-model="faculty_id"
+    filterable
     placeholder="Select Faculty"
   >
     <el-option v-if="hasNull" label="All Faculties" :value="null"> </el-option>
@@ -15,6 +16,7 @@
 </template>
 <script>
 import { doGet } from "../../helpers/request";
+import {mapState,mapActions} from 'vuex'
 export default {
   props: {
     value: Number,
@@ -23,7 +25,7 @@ export default {
   },
   data() {
     return {
-      faculties: [],
+      // faculties: [],
     };
   },
   methods: {
@@ -46,11 +48,18 @@ export default {
         this.$emit('update:loading',false)
       }
     },
+    ...mapActions('faculties',[
+      'load'
+    ]),
   },
   mounted() {
-    this.fetchFaculties();
+   this.load();
   },
   computed: {
+     ...mapState('faculties',{
+      faculties: state=> state.faculties,
+      data_loading: state => state.loading
+    }),
     faculty_id: {
       get() {
         return this.value;
@@ -60,6 +69,11 @@ export default {
       },
     },
   },
+  watch:{
+    data_loading(newValue){
+       this.$emit("update:loading", newValue);
+    }
+  }
 };
 </script>
 <style >

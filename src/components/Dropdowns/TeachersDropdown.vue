@@ -13,6 +13,7 @@
 
 <script>
 import { doGet } from "../../helpers/request";
+import {mapState,mapActions} from 'vuex'
 export default {
   props: {
     value: Number,
@@ -21,10 +22,14 @@ export default {
   },
   data() {
     return {
-      teachers: [],
+      // teachers: [],
     };
   },
   computed: {
+     ...mapState('teachers',{
+      teachers: state=> state.teachers,
+      data_loading: state => state.loading
+    }),
     teacher_id: {
       get() {
         return this.value;
@@ -35,7 +40,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchTeachers();
+    this.load();
   },
   methods: {
     fetchTeachers: async function () {
@@ -57,6 +62,14 @@ export default {
         this.$emit("update:loading", true);
       }
     },
+     ...mapActions('teachers',[
+      'load'
+    ]),
   },
+   watch:{
+    data_loading(newValue){
+       this.$emit("update:loading", newValue);
+    }
+  }
 };
 </script>
