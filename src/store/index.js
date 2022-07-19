@@ -1,9 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import terms from './terms'
+import faculties from './faculties'
+import batches from './batches'
+import teachers from './teachers'
+import subjects from './subjects'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  modules:{
+    terms: terms,
+    faculties: faculties,
+    batches: batches,
+    teachers: teachers,
+    subjects: subjects
+  },
   state: {
     token: localStorage.getItem('token') || null,
     user: null,
@@ -32,6 +44,5 @@ export default new Vuex.Store({
   actions: {
     
   },
-  modules: {
-  }
+  
 })
