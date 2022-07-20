@@ -1,9 +1,9 @@
 <template lang="">
   <div class="container-fluid">
-    <create v-model="openCreate" @success="fetchBatches" />
-    <edit v-model="openEdit" :id="activeID" @success="fetchBatches" />
+    <create v-model="openCreate" @success="reload" />
+    <edit v-model="openEdit" :id="activeID" @success="reload" />
     <post-csv v-model="openLoad" path="batches/load" title="Load Batches"/>
-    <el-skeleton v-if="loading" :rows="10" animated />
+    <el-skeleton v-if="data_loading" :rows="10" animated />
     <el-card v-else>
       <div slot="header" class="clearfix">
         <span>Batches</span>
@@ -78,20 +78,21 @@
   </div>
 </template>
 <script>
-import { doGet, doPost } from "../helpers/request";
+import {  doPost } from "../helpers/request";
 import Create from "../components/sections/batches/CreateBatch.vue";
 import Edit from "../components/sections/batches/EditBatch.vue";
 import PostCsv from '../components/PostCsv.vue';
+import {mapState,mapActions} from 'vuex';
 
 export default {
   data() {
     return {
+
       openCreate: false,
       openEdit: false,
       openLoad:false,
       activeID: null,
-      batches: [],
-      loading: false,
+      // loading: false,
     };
   },
   components: {
@@ -100,25 +101,9 @@ export default {
     PostCsv,
   },
   methods: {
-    fetchBatches: async function () {
-      try {
-        this.loading = true;
-        const response = await doGet({ path: "batches" });
-        const data = await response.json();
-        if(!response.ok){
-          throw data;
-        }
-        this.batches = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message,
-          position: "bottom-right",
-        });
-      } finally {
-        this.loading = false;
-      }
-    },
+     ...mapActions('batches',[
+      'load','remove','reload'
+    ]),
     handleOpenEdit(id) {
       this.activeID = id;
       this.openEdit = true;
@@ -135,7 +120,7 @@ export default {
         message: data.message || "Action was successful",
         type: "success",
       });
-      this.batches = this.batches.filter(batch=> batch.id !== id);
+      this.delete(id);
     }catch(err){
       this.$notify.error({
         title: "Error",
@@ -145,8 +130,14 @@ export default {
     },
    
   },
+  computed:{
+     ...mapState('batches',{
+      batches: state=> state.batches,
+      data_loading: state => state.loading
+    }),
+  },
   mounted: function () {
-    this.fetchBatches();
+    this.load();
   },
 };
 </script>
