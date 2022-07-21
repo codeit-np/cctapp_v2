@@ -5,6 +5,7 @@ import faculties from './faculties'
 import batches from './batches'
 import teachers from './teachers'
 import subjects from './subjects'
+import students from './students'
 
 Vue.use(Vuex)
 
@@ -14,7 +15,8 @@ export default new Vuex.Store({
     faculties: faculties,
     batches: batches,
     teachers: teachers,
-    subjects: subjects
+    subjects: subjects,
+    students: students,
   },
   state: {
     token: localStorage.getItem('token') || null,

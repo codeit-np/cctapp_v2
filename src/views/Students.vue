@@ -1,45 +1,19 @@
 <template lang="">
   <div class="container-fluid">
+
     <create v-model="openCreate"  />
     <post-csv v-model="openLoad" path="students/load" title="Load Students"/>
     <el-card v-loading="metaLoading">
       <div class="d-flex space-between justify-content-between flex-column flex-lg-row px-4">
-        <el-select class="my-1" v-model="batch_id" placeholder="Select Batch">
-          <el-option label="All Batches" :value="null"> </el-option>
-          <el-option
-            v-for="batch in batches"
-            :key="batch.id"
-            :label="batch.year"
-            :value="batch.id"
-          >
-          </el-option>
-        </el-select>
+        
+        <batches-drop-down v-model="batch_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
+        <faculties-drop-down v-model="faculty_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
+        <terms-drop-down v-model="term_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
 
-        <el-select class="my-1" v-model="faculty_id" placeholder="Select Faculty">
-          <el-option label="All Faculties" :value="null"> </el-option>
-          <el-option
-            v-for="faculty in faculties"
-            :key="faculty.id"
-            :label="faculty.title"
-            :value="faculty.id"
-          >
-          </el-option>
-        </el-select>
-
-        <el-select class="my-1" v-model="term_id" placeholder="Select Term">
-          <el-option label="All Terms" :value="null"> </el-option>
-          <el-option
-            v-for="term in terms"
-            :key="term.id"
-            :label="term.title"
-            :value="term.id"
-          >
-          </el-option>
-        </el-select>
-
-        <el-button class="my-1" @click="fetchStudents" type="primary">Search</el-button>
+        <el-button class="my-1" @click="reload" type="primary">Search</el-button>
       </div>
     </el-card>
+
     <el-skeleton v-if="loading" :rows="10" animated />
     <el-card v-else>
       <div slot="header" class="clearfix">
@@ -99,7 +73,7 @@
           </tr>
         </thead>
         <tbody>
-          <student-row  v-for="(student,index) in students" :student="student" :students.sync="students" :index="index" :key="student.id"/>
+          <student-row  v-for="(student,index) in displayed_students" :student="student" :students.sync="displayed_students" :index="index" :key="student.id"/>
         </tbody>
       </table>
       </div>
@@ -107,10 +81,13 @@
   </div>
 </template>
 <script>
-import { doGet } from "../helpers/request";
 import Create from "../components/sections/students/CreateStudent.vue";
 import StudentRow from '../components/sections/students/StudentRow.vue'
 import PostCsv from '../components/PostCsv.vue';
+import BatchesDropDown from '../components/Dropdowns/BatchesDropDown.vue'
+import FacultiesDropDown from '../components/Dropdowns/FacultiesDropDown.vue'
+import TermsDropDown from '../components/Dropdowns/TermsDropdown.vue'
+import {mapState, mapActions, mapMutations} from 'vuex';
 
 export default {
   data() {
@@ -119,14 +96,6 @@ export default {
       openEdit: false,
       openLoad:false,
       activeID: null,
-      students: [],
-      batches: [],
-      terms: [],
-      faculties: [],
-      batch_id: null,
-      faculty_id: null,
-      term_id: null,
-      loading: false,
       metaLoading: false,
      
     };
@@ -134,95 +103,66 @@ export default {
   components: {
     Create,
     PostCsv,
-    StudentRow
+    StudentRow,
+    BatchesDropDown,
+    FacultiesDropDown,
+    TermsDropDown,
     // Edit,
   },
   methods: {
-    fetchStudents: async function() {
-      try {
-        this.loading = true;
-        const response = await doGet({ path: "students",query:{faculty_id: this.faculty_id,term_id: this.term_id, batch_id: this.batch_id} });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-        this.students = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message,
-          position: "bottom-right",
-        });
-      } finally {
-        this.loading = false;
-      }
-    },
-    fetchBatches: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "batches" });
-        const data = await response.json();
-        if(!response.ok){
-          throw data;
-        }
-        this.batches = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message,
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
-    fetchFaculties: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "faculties" });
-        const data = await response.json();
-        if(!response.ok){
-          throw data;
-        }
-        this.faculties = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message,
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
-    fetchTerms: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "terms" });
-        const data = await response.json();
-        if(!response.ok){
-            throw data;
-        }
-        
-        this.terms = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message || "Something went wrong",
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
-    
+    ...mapActions('students',[
+      'reload'
+    ]),
+    ...mapMutations('students',['setFaculty','setTerm','setBatch'])
   },
   mounted: function() {
-      this.fetchTerms();
-      this.fetchFaculties();
-      this.fetchBatches();
+      // this.fetchTerms();
+      // this.fetchFaculties();
+      // this.fetchBatches();
     // this.fetchStudents();
   },
+  computed:{
+    ...mapState('students',{
+      active_faculty: state=>state.active_faculty,
+      active_batch: state=>state.active_batch,
+      active_term: state=>state.active_term,
+      loading: state=>state.loading,
+      students: state=>state.students
+    }),
+    displayed_students:{
+      get(){
+        return this.students
+      }, 
+      set(){
+
+      }
+    },
+    batch_id:{
+      get(){
+        return this.active_batch
+      },
+      set(value){
+        this.setBatch(value)
+      }
+    },
+    faculty_id:{
+      get(){
+        return this.active_faculty
+      },
+      set(value){
+        this.setFaculty(value)
+      }
+    },
+    term_id:{
+      get(){
+        return this.active_term
+      },
+      set(value){
+        this.setTerm(value)
+      }
+    },
+  },
+
 };
 </script>
 <style scoped></style>
