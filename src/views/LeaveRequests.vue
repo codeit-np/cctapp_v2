@@ -1,7 +1,9 @@
 <template lang="en">
    <div class="container-fluid">
+    <h3 class="p-2">Leave Requests</h3>
      <edit-leave v-model="openEdit"  :id="request_id" />
       <el-card v-loading="metaLoading">
+        <h5>Filters</h5>
       <div class="d-flex flex-wrap space-between justify-content-between flex-column flex-lg-row px-4">
         
         <el-select class="my-1" v-model="teacher_id" placeholder="Select Teacher">

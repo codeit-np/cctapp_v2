@@ -1,20 +1,11 @@
 <template lang="en">
    <div class="container-fluid">
+    <h3 class="p-2">Teacher Reports</h3>
       <el-card v-loading="metaLoading">
+        <h5>Filter</h5>
       <div class="d-flex flex-wrap space-between justify-content-between flex-column flex-lg-row px-4">
-        
-        <el-select class="my-1" v-model="teacher_id" placeholder="Select Teacher">
-          <el-option label="All Teachers" :value="null"> </el-option>
-          <el-option
-            v-for="teacher in teachers"
-            :key="teacher.id"
-            :label="teacher.name"
-            :value="teacher.id"
-          >
-          </el-option>
-        </el-select>
-
-
+     
+        <teachers-dropdown v-model="teacher_id" :loading.sync="metaLoading" :hasNull="true"/>
         <date-picker :from.sync="from" :to.sync="to"/> 
 
         <el-button class="my-1" v-loading="loading" @click="fetchReports" type="primary">Fetch Reports</el-button>
@@ -33,17 +24,18 @@
 <script>
 import DatePicker from "../components/sections/attendance/DatePicker.vue";
 import DataTable from "vue-materialize-datatable";
+import TeachersDropdown from "../components/Dropdowns/TeachersDropdown.vue";
 import { doGet } from "../helpers/request";
 
 export default {
   components: {
     DatePicker,
     datatable: DataTable,
+    TeachersDropdown
   },
   data() {
     return {
       reports: [],
-      teachers: [],
       queried: false,
       headers: [
         {
@@ -73,28 +65,10 @@ export default {
     };
   },
   mounted() {
-    this.fetchTeachers();
+    
   },
   methods: {
-    fetchTeachers: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "teachers" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-        this.teachers = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message,
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
+    
     fetchReports: async function () {
       try {
         this.loading = true;

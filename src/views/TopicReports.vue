@@ -1,7 +1,9 @@
 <template>
   <div>
+    <h3 class="p-2">Attendance Report</h3>
     <el-card
         >
+         <h5>Filters</h5>
       <div
         class="
           d-flex

@@ -1,6 +1,8 @@
 <template lang="en">
    <div class="container-fluid">
+      <span class="py-2">Attendance Report</span>
       <el-card v-loading="metaLoading">
+      <h5>Filters</h5>
       <div class="d-flex flex-wrap space-between justify-content-between flex-column flex-lg-row px-4">
         
         <batches-drop-down v-model="batch_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>

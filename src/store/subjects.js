@@ -41,17 +41,24 @@ const subjects= {
         reload({dispatch}){
             dispatch('fetchSubjects'); 
         },
+        deleteSub({state,commit},id){
+            const newSubjects = state.subjects.filter(subject=> subject.id !== id);
+            commit('setSubjects',newSubjects);
+        }
     },
     getters:{
-        filteredSubjects: (state) => ({faculty_id,term_id})=>{
+        filteredSubjects: (state) => ({faculty_id,term_id,subject_type_id})=>{
             const subs = state.subjects.filter((subject) => {
                 const termFilter = term_id
                   ? subject.term.id == term_id
                   : true;
+                const subjectTypeFilter = subject_type_id
+                ? subject.subject_type.id == subject_type_id
+                : true; 
                 const facultyFilter = faculty_id
                   ? subject.faculty.id == faculty_id
                   : true;
-                return termFilter && facultyFilter;
+                return termFilter && facultyFilter && subjectTypeFilter;
               });
               return subs;
         }

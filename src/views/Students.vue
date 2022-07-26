@@ -1,11 +1,11 @@
 <template lang="">
   <div class="container-fluid">
-
-    <create v-model="openCreate"  />
+    <h3 class="py-3">Students</h3>
+    <create v-model="openCreate" />
     <post-csv v-model="openLoad" path="students/load" title="Load Students"/>
     <el-card v-loading="metaLoading">
+        <h5>Filters</h5>
       <div class="d-flex space-between justify-content-between flex-column flex-lg-row px-4">
-        
         <batches-drop-down v-model="batch_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
         <faculties-drop-down v-model="faculty_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
         <terms-drop-down v-model="term_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
@@ -31,9 +31,16 @@
           style="float: right; padding: 3px 0"
           type="text"
         >
-         <i class="fa fa-upload" aria-hidden="true"></i> Load
+         <i class="fa fa-upload" aria-hidden="true"></i> Upload CSV
         </el-button>
 
+         <el-button
+          @click="exportCSV"
+          style="float: right; padding: 5px 0"
+          type="text"
+        >
+         <i class="fa fa-download" aria-hidden="true"></i> Download CSV
+        </el-button>
       </div>
       <div class="table-responsive">
        
@@ -113,6 +120,38 @@ export default {
     ...mapActions('students',[
       'reload'
     ]),
+    convertToCSV(headers, data) {
+      let csv = headers.join(',') + '\n';
+     
+      data.forEach(row => {
+        csv += headers.map(header => {
+          if (header === 'batch') {
+            return row[header] ? row[header].year : '';
+          } else if (header === 'faculty') {
+            return row[header] ? row[header].title : '';
+          } else if (header === 'term') {
+            return row[header] ? row[header].title : '';
+          } else {
+            return row[header] ? row[header] : '';
+          }
+        }).join(',') + '\n';
+      });
+      return csv;
+    },
+    exportToCsv(headers, data) {
+      let csv = this.convertToCSV(headers, data);
+      let blob = new Blob([csv], {
+        type: 'text/csv;charset=utf-8;',
+      });
+      let url = window.URL.createObjectURL(blob);
+      let link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `students-${Date()}.csv`);
+      link.click();
+    },
+    exportCSV(){
+      this.exportToCsv(Object.keys(this.students[0]||{}),this.students)
+    },
     ...mapMutations('students',['setFaculty','setTerm','setBatch'])
   },
   mounted: function() {

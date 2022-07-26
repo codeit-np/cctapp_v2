@@ -1,9 +1,11 @@
 <template lang="">
   <div class="container-fluid">
+    <h3 class="p-2">Subjects</h3>
     <create v-model="openCreate" />
     <edit v-model="openEdit" :id="activeID" />
     <post-csv v-model="openLoad" path="subjects/load" title="Load Subjects"/>
     <el-card v-loading="metaLoading">
+      <h5>Filters</h5>
       <div class="d-flex space-between justify-content-between flex-column flex-lg-row px-4">
         <el-select class="my-1" v-model="subject_type_id" placeholder="Select Subject Type">
           <el-option label="All Subject Types" :value="null"> </el-option>
@@ -26,7 +28,7 @@
           v-model="term_id"
           :hasNull="true"
         />
-        <el-button class="my-1" @click="fetchSubjects" type="primary">Search</el-button>
+        
       </div>
     </el-card>
 
@@ -80,7 +82,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(subject, index) in subjects" :key="subject.id">
+          <tr v-for="(subject, index) in filteredSubjects({term_id,faculty_id,subject_type_id})" :key="subject.id">
             <td>
               {{ ++index }}
             </td>
@@ -134,6 +136,7 @@
 </template>
 <script>
 import { doGet, doPost } from "../helpers/request";
+import {mapState,mapActions,mapGetters} from 'vuex'
 import Create from "../components/sections/subjects/CreateSubject.vue";
 import Edit from "../components/sections/subjects/EditSubject.vue";
 import PostCsv from '../components/PostCsv.vue';
@@ -147,12 +150,10 @@ export default {
       openEdit: false,
       activeId: null,
       activeID: null,
-      subjects: [],
       subject_types: [],
       subject_type_id: null,
       faculty_id: null,
       term_id: null,
-      loading: false,
       metaLoading: false,
     };
   },
@@ -164,6 +165,11 @@ export default {
     TermsDropdown,
   },
   methods: {
+    ...mapActions('subjects',[
+      'load',
+      'reload',
+      'deleteSub'
+    ]),
     handleOpenEdit(id) {
       this.activeID = id;
       this.openEdit = true;
@@ -188,33 +194,6 @@ export default {
       }
     },
    
-    fetchSubjects: async function () {
-      try {
-        this.loading = true;
-        const response = await doGet({
-          path: "subjects",
-          query: {
-            subject_type_id: this.subject_type_id,
-            faculty_id: this.faculty_id,
-            term_id: this.term_id,
-          },
-        });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-
-        this.subjects = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message || "Something went wrong",
-          position: "bottom-right",
-        });
-      } finally {
-        this.loading = false;
-      }
-    },
     handleDelete: async function (id) {
       try {
         const response = await doPost({
@@ -230,7 +209,7 @@ export default {
           message: data.message || "Action was successful",
           type: "success",
         });
-        this.subjects = this.subjects.filter((subject) => subject.id !== id);
+        this.deleteSub(id);
       } catch (err) {
         this.$notify.error({
           title: "Error",
@@ -241,7 +220,16 @@ export default {
   },
   mounted: function () {
     this.fetchSubjectTypes();
+    this.load();
   },
+  computed: {
+    ...mapState('subjects',{
+      loading: state => state.loading
+    }),
+    ...mapGetters('subjects',[
+        'filteredSubjects'
+    ]),
+  }
 };
 </script>
 <style scoped></style>
