@@ -1,4 +1,4 @@
-# cct-attendence-vue
+# CCT Attendance App Vue
 
 ## Project setup
 ```
