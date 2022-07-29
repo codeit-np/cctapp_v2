@@ -13,10 +13,6 @@
             <el-card shadow="hover">Attendance Report</el-card>
           </div>
 
-          <!-- <div class="col-lg-4 col-md-6"  @click="$router.push({ name: 'Attendance' })">
-            <el-card shadow="hover">Attendance Report</el-card>
-          </div> -->
-
           <div class="col-lg-4 col-md-6"  @click="$router.push({ name: 'Teacher Attendance' })">
             <el-card shadow="hover">SQC Report</el-card>
           </div>
@@ -29,7 +25,9 @@
             <el-card shadow="hover">Leave Requests</el-card>
           </div>
 
-          
+          <div class="col-lg-4 col-md-6"  @click="$router.push({ name: 'Attendance' })">
+            <el-card shadow="hover">Student Attendance</el-card>
+          </div>
 
            
         </div>

@@ -121,10 +121,13 @@ export default {
       'reload'
     ]),
     convertToCSV(headers, data) {
-      let csv = headers.join(',') + '\n';
+      const newHeaders =headers.filter((header)=>{
+        return !(header==="roll_no" || header==="id" || header==="student_status");
+      });
+      let csv = newHeaders.join(',') + '\n';
      
       data.forEach(row => {
-        csv += headers.map(header => {
+        csv += newHeaders.map(header => {
           if (header === 'batch') {
             return row[header] ? row[header].year : '';
           } else if (header === 'faculty') {

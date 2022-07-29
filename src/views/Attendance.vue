@@ -1,6 +1,6 @@
 <template lang="en">
    <div class="container-fluid">
-      <span class="py-2">Attendance Report</span>
+      <h3 class="py-2">Attendance Report</h3>
       <el-card v-loading="metaLoading">
       <h5>Filters</h5>
       <div class="d-flex flex-wrap space-between justify-content-between flex-column flex-lg-row px-4">
@@ -65,6 +65,8 @@ export default {
   methods: {
     fetchAttendance: async function () {
       try {
+        this.headers = [];
+        this.topics= [];
         this.loading = true;
         const response = await doGet({
           path: "attendences",
@@ -113,7 +115,7 @@ export default {
           // Group Attendance By Student
 
             // Add Student record if not added already
-          if (!attendanceSet[`${attendance.student.id}`]) {
+          if (attendanceSet[`${attendance.student.id}`]===undefined) {
             attendanceSet[`${attendance.student.id}`] = {};
           }
             // Add Students attendance per topic
@@ -125,7 +127,7 @@ export default {
         
         //Headers For Table
 
-        this.headers = [];
+        
 
         this.headers.push({
           label: "Name",
@@ -155,7 +157,7 @@ export default {
             // Check if Student has attendacne of the topic
 
             // if Not Print N/A
-            if(attendanceSet[`${student.id}`][
+            if(attendanceSet[`${student.id}`]==undefined || attendanceSet[`${student.id}`][
                 `${topic.teacher_id}-${topic.date}-${topic.topic}-${topic.subject}`
               ]==undefined){
                  attendance[topic.id] = 'N/A'
