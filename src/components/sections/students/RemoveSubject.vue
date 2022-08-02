@@ -133,45 +133,6 @@ export default {
         this.metaLoading = false;
       }
     },
-    fetchFaculties: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "faculties" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-        this.faculties = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message,
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
-    fetchTerms: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "terms" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-
-        this.terms = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message || "Something went wrong",
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
     selectAll() {
       this.form.subject_ids = this.subjects.map((subject) => subject.id);
     },
