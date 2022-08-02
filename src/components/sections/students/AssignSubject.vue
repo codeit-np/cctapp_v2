@@ -18,27 +18,8 @@
           </el-option>
         </el-select>
 
-        <el-select class="my-1" v-model="faculty_id" placeholder="Select Faculty">
-          <el-option label="All Faculties" :value="null"> </el-option>
-          <el-option
-            v-for="faculty in faculties"
-            :key="faculty.id"
-            :label="faculty.title"
-            :value="faculty.id"
-          >
-          </el-option>
-        </el-select>
-
-        <el-select class="my-1" v-model="term_id" placeholder="Select Term">
-          <el-option label="All Terms" :value="null"> </el-option>
-          <el-option
-            v-for="term in terms"
-            :key="term.id"
-            :label="term.title"
-            :value="term.id"
-          >
-          </el-option>
-        </el-select>
+       <faculties-drop-down v-model="faculty_id" :loading.sync="metaLoading"/>
+       <terms-drop-down v-model="term_id" :loading.sync="metaLoading"/>
         
         <el-button class="my-1" @click="fetchSubjects" type="primary">Search</el-button>
       </div>
@@ -46,7 +27,9 @@
 
     <el-card v-loading="loading">
         <div class="container m-2">
-            <div class="d-flex flex-wrap">
+        <el-button class="my-1"  @click="selectAll" type="primary">Select All</el-button>
+        <el-button class="my-1" @click="deselectAll" type="primary">Deselect All</el-button>
+            <div class="d-flex flex-wrap py-2">
                 <span class="d-block m-2 badge rounded-pill bg-light text-dark" v-for="subject in subjects" :key="subject.id">
                     <input type="checkbox" class="px-1" :id="subject.title" :value="subject.id" v-model="form.subject_ids">
                     <label :for="subject.title" class="px-1" >{{ subject.title }}</label>
@@ -60,10 +43,16 @@
 <script>
 import form from "vuejs-form";
 import { doGet, doPost } from "../../../helpers/request";
+import FacultiesDropDown from '../../Dropdowns/FacultiesDropDown.vue'
+import TermsDropDown from '../../Dropdowns/TermsDropdown.vue';
 export default {
   props: {
     value: Boolean,
     student_id:String,
+  },
+  components:{
+    FacultiesDropDown,
+    TermsDropDown
   },
   data() {
     return {
@@ -71,9 +60,7 @@ export default {
         subject_ids: [],
       }),
       subjects: [],
-      terms: [],
       genders: [],
-      faculties: [],
       subject_types: [],
       subject_type_id: null,
       faculty_id: null,
@@ -84,9 +71,7 @@ export default {
     };
   },
   mounted() {
-    this.fetchFaculties();
     this.fetchSubjectTypes();
-    this.fetchTerms();
   },
   methods: {
     handleClose() {
@@ -145,45 +130,6 @@ export default {
         this.metaLoading = false;
       }
     },
-    fetchFaculties: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "faculties" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-        this.faculties = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message,
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
-    fetchTerms: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "terms" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-
-        this.terms = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message || "Something went wrong",
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
     fetchSubjects: async function () {
       try {
         this.loading = true;
@@ -212,6 +158,12 @@ export default {
         this.loading = false;
       }
     },
+    selectAll(){
+      this.form.subject_ids = this.subjects.map(subject=>subject.id) 
+    },
+    deselectAll(){
+      this.form.subject_ids = []
+    }
   },
   watch: {
     value() {

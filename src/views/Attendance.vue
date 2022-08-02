@@ -1,13 +1,13 @@
 <template lang="en">
    <div class="container-fluid">
-      <h3 class="py-2">Attendance Report</h3>
+      <h3 class="py-2">Student Attendance Report</h3>
       <el-card v-loading="metaLoading">
       <h5>Filters</h5>
       <div class="d-flex flex-wrap space-between justify-content-between flex-column flex-lg-row px-4">
         
         <batches-drop-down v-model="batch_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
-        <faculties-drop-down v-model="faculty_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
-        <terms-drop-down v-model="term_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
+        <faculties-drop-down v-model="faculty_id" :loading.sync="metaLoading" class="my-1" />
+        <terms-drop-down v-model="term_id" :loading.sync="metaLoading" class="my-1" />
         <subjects-drop-down v-model="subject_id" :term_id="term_id" :faculty_id="faculty_id" :loading.sync="metaLoading" class="my-1" :hasNull="true"/>
         
         <date-picker :from.sync="from" :to.sync="to"/> 
