@@ -146,6 +146,10 @@
         </div>
       </div>
 
+       <el-button type="primary" class="m-2" @click="navigateAttendance" plain
+        >View Attendance</el-button
+      >
+
       <el-button type="primary" v-loading="submitting" class="m-2" @click="handleSubmit" plain
         >Update Student</el-button
       >
@@ -224,7 +228,7 @@ export default {
       errors: {},
       openAssign:false,
       openRemove: false,
-      id: this.$route.params.id,
+
     };
   },
   mounted() {
@@ -396,6 +400,7 @@ export default {
 
       }
     },
+    
   },
   watch: {},
 };

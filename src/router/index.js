@@ -54,6 +54,12 @@ const routes = [
           import(/* webpackChunkName: "edit_students" */ "../views/EditStudent.vue"),
       },
       {
+        name: "Student Attendance Report",
+        path: "/student/:id/attendance",
+        component: () =>
+          import(/* webpackChunkName: "students_attendance_report" */ "../views/StudentAttendanceReport.vue"),
+      },
+      {
         name: "Subjects",
         path: "/subjects",
         component: () =>

@@ -54,8 +54,12 @@ const students= {
         reload({dispatch}){
             dispatch('fetchStudents'); 
         },
+    },
+    getters:{
+        singleStudent: (state) => ({student_id})=>{
+            return state.students.find(student=>student.id==student_id);
+        }
     }
-
 }
 
 export default students

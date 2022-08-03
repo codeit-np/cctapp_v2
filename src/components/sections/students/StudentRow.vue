@@ -45,6 +45,17 @@
         circle
       ></el-button>
 
+
+      <el-tooltip content="View Attendance" placement="top-start">
+          <el-button
+            type="primary"
+            class="mx-1"
+            @click="navigateAttendance(student.id)"
+            icon="el-icon-s-management"
+            circle
+          ></el-button>
+      </el-tooltip>
+
       <el-popconfirm
         confirm-button-text="OK"
         cancel-button-text="No, Thanks"
@@ -155,6 +166,9 @@ export default {
         this.submitting = false;
       }
     },
+    navigateAttendance(id){
+      this.$router.push({ name: 'Student Attendance Report', params: { id: id } })
+    }
   },
 };
 </script>
