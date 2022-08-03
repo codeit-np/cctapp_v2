@@ -56,7 +56,7 @@
             <th class="text-center">
               Mobile
             </th>
-             <th class="text-center">
+             <th class="text-center" style="max-width:10%">
               Roll No
             </th>
             <th class="text-center">

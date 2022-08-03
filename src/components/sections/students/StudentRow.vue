@@ -1,7 +1,7 @@
 <template >
   <tr>
     <td>
-      {{ index+1 }}
+      {{ index + 1 }}
     </td>
     <td class="text-center">
       {{ student.name }}
@@ -11,6 +11,7 @@
     </td>
     <td class="text-center">
       <input
+        :style="{ maxWidth: '100px' }"
         type="number"
         class="form-control"
         name="roll_no"
@@ -37,44 +38,51 @@
       {{ student.faculty.title }}
     </td>
     <td>
-      <el-button
+      <!-- <el-button
         type="primary"
         class="mx-1"
         @click="handleOpenEdit(student.id)"
         icon="el-icon-edit"
         circle
-      ></el-button>
+      ></el-button> -->
 
-
-      <el-tooltip content="View Attendance" placement="top-start">
-          <el-button
-            type="primary"
-            class="mx-1"
-            @click="navigateAttendance(student.id)"
-            icon="el-icon-s-management"
-            circle
-          ></el-button>
+      <el-tooltip content="Edit Student" placement="top-start">
+        <a
+          class="text-primary badge text-decoration-none"
+          @click="handleOpenEdit(student.id)"
+        >
+          <i class="fas fa-pen-to-square fs-4"></i>
+        </a>
       </el-tooltip>
 
-      <el-popconfirm
+      <el-tooltip content="Student Report" placement="top-start">
+        <a
+          @click="navigateAttendance(student.id)"
+          class="text-info badge text-decoration-none"
+        >
+          <i class="fas fa-file-lines fs-4"></i>
+        </a>
+      </el-tooltip>
+
+      <!-- <el-popconfirm
         confirm-button-text="OK"
         cancel-button-text="No, Thanks"
         icon="el-icon-house"
-        @confirm="handleUpdate()"
+     
         icon-color="yellow"
         title="Are you sure to update roll no?"
-      >
-        <el-button
-          v-loading="submitting"
-          slot="reference"
-          type="warning"
-          class="mx-1"
-          icon="el-icon-house"
-          circle
-        ></el-button>
-      </el-popconfirm>
+      > -->
+      <el-tooltip content="Update Student" placement="top-start">
+        <a
+          @click="handleUpdate()"
+          class="text-success badge text-decoration-none"
+        >
+          <i class="fa fa-rotate fs-4" aria-hidden="true"></i>
+        </a>
+      </el-tooltip>
+      <!-- </el-popconfirm> -->
 
-      <el-popconfirm
+      <!-- <el-popconfirm
         confirm-button-text="OK"
         cancel-button-text="No, Thanks"
         icon="el-icon-info"
@@ -82,14 +90,16 @@
         icon-color="red"
         title="Are you sure to delete this?"
       >
-        <el-button
-          slot="reference"
-          type="danger"
-          class="mx-1"
-          icon="el-icon-delete"
-          circle
-        ></el-button>
-      </el-popconfirm>
+      
+      </el-popconfirm> -->
+      <el-tooltip content="Delete Student" placement="top-start">
+        <a
+          @click="handleDelete(student.id)"
+          class="text-danger badge text-decoration-none"
+        >
+          <i class="fa fa-trash fs-4" aria-hidden="true"></i>
+        </a>
+      </el-tooltip>
     </td>
   </tr>
 </template>
@@ -99,7 +109,7 @@ export default {
   props: {
     student: Object,
     index: Number,
-    students: Array
+    students: Array,
   },
   data() {
     return {
@@ -113,6 +123,7 @@ export default {
     },
     handleDelete: async function (id) {
       try {
+        if (!confirm("Are You Sure?")) return;
         const response = await doPost({
           method: "DELETE",
           path: `students/${id}`,
@@ -126,7 +137,10 @@ export default {
           message: data.message || "Action was successful",
           type: "success",
         });
-        this.$emit('update:students',this.students.filter((student) => student.id !== id));
+        this.$emit(
+          "update:students",
+          this.students.filter((student) => student.id !== id)
+        );
       } catch (err) {
         this.$notify.error({
           title: "Error",
@@ -136,6 +150,8 @@ export default {
     },
     handleUpdate: async function () {
       try {
+        if (!confirm("Are You Sure?")) return;
+
         this.submitting = true;
         const response = await doPost({
           method: "PUT",
@@ -166,9 +182,12 @@ export default {
         this.submitting = false;
       }
     },
-    navigateAttendance(id){
-      this.$router.push({ name: 'Student Attendance Report', params: { id: id } })
-    }
+    navigateAttendance(id) {
+      this.$router.push({
+        name: "Student Attendance Report",
+        params: { id: id },
+      });
+    },
   },
 };
 </script>
