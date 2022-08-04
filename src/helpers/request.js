@@ -1,5 +1,5 @@
 export const baseUrl = process.env.NODE_ENV === "development"
-    ? "http://127.0.0.1:8000/api/"
+    ? "https://app.cctdharan.edu.np/api/"
     : `${window.location.origin}/api/`
 
 export function doPostForm({ method = "POST", body={}, path = "" }) {

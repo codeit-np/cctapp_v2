@@ -146,9 +146,6 @@
         </div>
       </div>
 
-       <el-button type="primary" class="m-2" @click="navigateAttendance" plain
-        >View Attendance</el-button
-      >
 
       <el-button type="primary" v-loading="submitting" class="m-2" @click="handleSubmit" plain
         >Update Student</el-button
@@ -185,6 +182,7 @@ import TermsDropDown from '../components/Dropdowns/TermsDropdown.vue'
 export default {
   props: {
     value: Boolean,
+    id: String,
   },
   components:{
     assign: AssignSubject,
