@@ -1,16 +1,12 @@
 <template lang="">
   <div id="print-area">
-    <div class="print-only">
-      <div class="d-flex align-items-center border-bottom">
-        <img
-          src="@/assets/cctlogo.png"
-          alt="Cetral Campus Of Technology, Dharan"
-          class="w-25"
-        />
-        <h1 class="fs-1">Central Campus Of Technology</h1>
-      </div>
-    </div>
+    <print-only />
     <el-card class="no-print">
+      <el-button class="" v-print="'#print-area'"  v-loading="loading" type="primary"
+          >
+          <i class="fa fa-print" aria-hidden="true"></i>
+          Print</el-button
+        >
       <div class="py-2" v-loading="metaLoading">
         <div class="d-flex justify-content-between">
           <span>Select Term:
@@ -78,6 +74,7 @@
 <script>
 import { mapGetters } from "vuex";
 import TermsDropDown from "../components/Dropdowns/TermsDropdown.vue";
+import PrintOnly from "../components/PrintOnly.vue";
 import { doGet } from "../helpers/request";
 import { Chart } from "highcharts-vue";
 export default {
@@ -159,6 +156,7 @@ export default {
   components: {
     TermsDropDown,
     Chart,
+    PrintOnly
   },
   computed: {
     ...mapGetters("students", ["singleStudent"]),
@@ -169,6 +167,7 @@ export default {
           plotBorderWidth: null,
           plotShadow: false,
           type: "pie",
+          backgroundColor:"none"
         },
         title: {
           text: "Student Attendance Chart",

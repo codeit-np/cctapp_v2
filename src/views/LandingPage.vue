@@ -1,11 +1,13 @@
 <template lang="">
     <div class="container-fluid mx-auto text-center">
       <div class="p-4">
-        <img
+        <!-- <img
           src="@/assets/cctlogo.png"
           alt="Cetral Campus Of Technology, Dharan"
           class="w-25"
-        />
+        /> -->
+        <attendance-report-graph />
+
         <div class="row gy-4 my-4">
           <h4>Reports</h4>
 
@@ -87,7 +89,12 @@
     </div>
 </template>
 <script>
-export default {};
+  import AttendanceReportGraph from '../components/AttendanceReportGraph.vue';
+export default {
+  components:{
+    AttendanceReportGraph
+  }
+};
 </script>
 <style scoped>
 </style>

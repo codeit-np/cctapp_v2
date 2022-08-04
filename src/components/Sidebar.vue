@@ -3,6 +3,13 @@
     class="el-menu-vertical-demo pt-4"
     :collapse="isCollapse"
   >
+      <img
+            src="@/assets/cctlogo.png"
+            alt="Cetral Campus Of Technology, Dharan"
+            class="w-100"
+          /> 
+ 
+     
     <el-menu-item @click="$router.push({ name: 'Home' })" index="0">
        <i class="fas fa-home"></i> 
         <span slot="title">Home</span>
