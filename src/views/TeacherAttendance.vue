@@ -5,50 +5,13 @@
        <h5> Filters
         </h5> 
       <div class="d-flex flex-wrap space-between justify-content-between flex-column flex-lg-row px-4">
-        <el-select class="my-1" v-model="teacher_id" placeholder="Select Teacher">
-          <el-option label="All Teachers" :value="null"> </el-option>
-          <el-option
-            v-for="teacher in teachers"
-            :key="teacher.id"
-            :label="teacher.name"
-            :value="teacher.id"
-          >
-          </el-option>
-        </el-select>
+ 
 
-        <el-select class="my-1" v-model="faculty_id" placeholder="Select Faculty">
-          <el-option label="All Faculties" :value="null"> </el-option>
-          <el-option
-            v-for="faculty in faculties"
-            :key="faculty.id"
-            :label="faculty.title"
-            :value="faculty.id"
-          >
-          </el-option>
-        </el-select>
-
-        <el-select class="my-1" v-model="term_id" placeholder="Select Term">
-          <el-option label="All Terms" :value="null"> </el-option>
-          <el-option
-            v-for="term in terms"
-            :key="term.id"
-            :label="term.title"
-            :value="term.id"
-          >
-          </el-option>
-        </el-select>
-
-        <el-select class="my-1" v-model="subject_id" placeholder="Select Subjects">
-          <el-option label="All Subjects" :value="null"> </el-option>
-          <el-option
-            v-for="subject in filteredSubjects"
-            :key="subject.id"
-            :label="`${subject.title}- ${subject.term.title} - ${subject.faculty.title}`"
-            :value="subject.id"
-          >
-          </el-option>
-        </el-select>
-
+        <teachers-drop-down  class="my-1" v-model="teacher_id" :loading.sync="metaLoading" :hasNull="true"/>
+        <faculties-drop-down  class="my-1" v-model="faculty_id" :loading.sync="metaLoading" :hasNull="true"/>
+        <terms-drop-down  class="my-1" v-model="term_id" :loading.sync="metaLoading" :hasNull="true"/>
+        <subjects-drop-down  class="my-1" v-model="subject_id"  :faculty_id="faculty_id" :term_id="term_id" :loading.sync="metaLoading" :hasNull="true"/>
+        
         <date-picker :from.sync="from" :to.sync="to"/> 
 
         <el-button class="my-1" v-loading="loading" @click="fetchAttendance" type="primary">Fetch Attendance</el-button>
@@ -56,8 +19,14 @@
       </div>
     </el-card> 
        
-      <div  class="table-responsive">
-          <datatable v-loading="loading" v-if="attendances.length>0" title="SQC Report" :rows="attendances" :columns="headers"> </datatable>
+      <div  class="table-responsive py-3">
+          <!-- <datatable v-loading="loading" v-if="attendances.length>0" title="SQC Report" :rows="attendances" :columns="headers"> </datatable> -->
+          <custom-data-table
+            
+            :title="`SQC Report`"
+            :headers="headers"
+            :rows="rows"
+          >  </custom-data-table /> 
           <div v-if="queried && attendances.length===0" class="text-danger p-4"> Sorry No Data Available</div>
       </div>
 
@@ -67,52 +36,56 @@
 </template>
 <script>
 import DatePicker from "../components/sections/attendance/DatePicker.vue";
-import DataTable from "vue-materialize-datatable";
+// import DataTable from "vue-materialize-datatable";
 import { doGet } from "../helpers/request";
-
+import FacultiesDropDown from '../components/Dropdowns/FacultiesDropDown.vue'
+import TeachersDropDown from '../components/Dropdowns/TeachersDropdown.vue'
+import TermsDropDown from '../components/Dropdowns/TermsDropdown.vue'
+import SubjectsDropDown from '../components/Dropdowns/SubjectsDropdown.vue'
+import CustomDataTable from '../components/DataTable.vue'
 export default {
   components: {
     DatePicker,
-    datatable: DataTable,
+    // datatable: DataTable,
+    FacultiesDropDown,
+    TeachersDropDown,
+    TermsDropDown,
+    SubjectsDropDown,
+    CustomDataTable
   },
   data() {
-    return {
-      students: [],
+    return { 
       topics: [],
       attendances: [],
-      teachers: [],
-      terms: [],
       queried: false,
-      faculties: [],
-      subjects: [],
       headers: [
         {
           label: "Teacher Name",
-          field: "teacher.name",
+          field: "teacher",
           numeric: false,
           html: false,
         },
         {
           label: "Faculty",
-          field: "subject.faculty.title",
+          field: "faculty",
           numeric: false,
           html: false,
         },
         {
           label: "Term",
-          field: "subject.term.title",
+          field: "term",
           numeric: false,
           html: false,
         },
         {
           label: "Subject",
-          field: "subject.title",
+          field: "subject",
           numeric: false,
           html: false,
         },
         {
           label: "SQC",
-          field: "sqc.name",
+          field: "sqc",
           numeric: false,
           html: false,
         },
@@ -147,112 +120,118 @@ export default {
       loading: false,
       teacher_id: null,
       metaLoading: false,
-      from: (new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000) )).toISOString().split("T")[0],
-      to:(new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000) )).toISOString().split("T")[0],
+      from: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .split("T")[0],
+      to: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .split("T")[0],
     };
   },
   mounted() {
-    this.fetchTerms();
-    this.fetchFaculties();
-    this.fetchTeachers();
-    this.fetchSubjects();
+    // this.fetchTerms();
+    // this.fetchFaculties();
+    // this.fetchTeachers();
+    // this.fetchSubjects();
   },
   computed: {
-    filteredSubjects() {
-      const subs = this.subjects.filter((subject) => {
-        const termFilter = this.term_id
-          ? subject.term.id == this.term_id
-          : true;
-        const facultyFilter = this.faculty_id
-          ? subject.faculty.id == this.faculty_id
-          : true;
-        return termFilter && facultyFilter;
-      });
-
-      return subs;
-    },
+    rows(){
+      return this.attendances.map(attendance=>{
+        return {
+          teacher: attendance.teacher.name,
+          faculty: attendance.subject.faculty.title,
+          term: attendance.subject.term.title,
+          subject: attendance.subject.name,
+          sqc: attendance.sqc.name,
+          date: attendance.date,
+          time: attendance.time,
+          duration: attendance.duration,
+          remarks: attendance.remarks,
+        }
+      })
+    }
   },
   methods: {
-    fetchTeachers: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "teachers" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-        this.teachers = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message,
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
-    fetchFaculties: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "faculties" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
-        this.faculties = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message,
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
-    fetchTerms: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({ path: "terms" });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
+    // fetchTeachers: async function () {
+    //   try {
+    //     this.metaLoading = true;
+    //     const response = await doGet({ path: "teachers" });
+    //     const data = await response.json();
+    //     if (!response.ok) {
+    //       throw data;
+    //     }
+    //     this.teachers = data.data;
+    //   } catch (err) {
+    //     this.$notify.error({
+    //       title: "Error",
+    //       message: err.message,
+    //       position: "bottom-right",
+    //     });
+    //   } finally {
+    //     this.metaLoading = false;
+    //   }
+    // },
+    // fetchFaculties: async function () {
+    //   try {
+    //     this.metaLoading = true;
+    //     const response = await doGet({ path: "faculties" });
+    //     const data = await response.json();
+    //     if (!response.ok) {
+    //       throw data;
+    //     }
+    //     this.faculties = data.data;
+    //   } catch (err) {
+    //     this.$notify.error({
+    //       title: "Error",
+    //       message: err.message,
+    //       position: "bottom-right",
+    //     });
+    //   } finally {
+    //     this.metaLoading = false;
+    //   }
+    // },
+    // fetchTerms: async function () {
+    //   try {
+    //     this.metaLoading = true;
+    //     const response = await doGet({ path: "terms" });
+    //     const data = await response.json();
+    //     if (!response.ok) {
+    //       throw data;
+    //     }
 
-        this.terms = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message || "Something went wrong",
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
-    fetchSubjects: async function () {
-      try {
-        this.metaLoading = true;
-        const response = await doGet({
-          path: "subjects",
-        });
-        const data = await response.json();
-        if (!response.ok) {
-          throw data;
-        }
+    //     this.terms = data.data;
+    //   } catch (err) {
+    //     this.$notify.error({
+    //       title: "Error",
+    //       message: err.message || "Something went wrong",
+    //       position: "bottom-right",
+    //     });
+    //   } finally {
+    //     this.metaLoading = false;
+    //   }
+    // },
+    // fetchSubjects: async function () {
+    //   try {
+    //     this.metaLoading = true;
+    //     const response = await doGet({
+    //       path: "subjects",
+    //     });
+    //     const data = await response.json();
+    //     if (!response.ok) {
+    //       throw data;
+    //     }
 
-        this.subjects = data.data;
-      } catch (err) {
-        this.$notify.error({
-          title: "Error",
-          message: err.message || "Something went wrong",
-          position: "bottom-right",
-        });
-      } finally {
-        this.metaLoading = false;
-      }
-    },
+    //     this.subjects = data.data;
+    //   } catch (err) {
+    //     this.$notify.error({
+    //       title: "Error",
+    //       message: err.message || "Something went wrong",
+    //       position: "bottom-right",
+    //     });
+    //   } finally {
+    //     this.metaLoading = false;
+    //   }
+    // },
     fetchAttendance: async function () {
       try {
         this.loading = true;
