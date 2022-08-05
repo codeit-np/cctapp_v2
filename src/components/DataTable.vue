@@ -79,7 +79,11 @@ export default {
       data.forEach((row) => {
         csv +=
           headers
-            .map((header) => row[header.field].replaceAll(",", "-"))
+            .map((header) =>
+              row[header.field]
+                ? `"${row[header.field].replaceAll(",", "-")}"`
+                : ""
+            )
             .join(",") + "\n";
       });
       return csv;
@@ -98,12 +102,14 @@ export default {
   },
   computed: {
     filteredData() {
-      return this.rows.filter((row)=>{
-        if(!this.filter) return true;
+      return this.rows.filter((row) => {
+        if (!this.filter) return true;
         // Filter Key is turned to lower case
         const lowerFilter = new String(this.filter).toLowerCase();
         // Row Value is converted to lower case for case insensitive search
-        return Object.values(row).some(value=>value.toLowerCase().includes(lowerFilter))
+        return Object.values(row).some((value) =>
+          value.toLowerCase().includes(lowerFilter)
+        );
       });
     },
   },
