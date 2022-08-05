@@ -22,7 +22,7 @@
       <div  class="table-responsive py-3">
           <!-- <datatable v-loading="loading" v-if="attendances.length>0" title="SQC Report" :rows="attendances" :columns="headers"> </datatable> -->
           <custom-data-table
-            
+             v-if="attendances.length>0"
             :title="`SQC Report`"
             :headers="headers"
             :rows="rows"
@@ -60,7 +60,7 @@ export default {
       queried: false,
       headers: [
         {
-          label: "Teacher Name",
+          label: "Teacher",
           field: "teacher",
           numeric: false,
           html: false,
@@ -141,7 +141,7 @@ export default {
           teacher: attendance.teacher.name,
           faculty: attendance.subject.faculty.title,
           term: attendance.subject.term.title,
-          subject: attendance.subject.name,
+          subject: attendance.subject.title,
           sqc: attendance.sqc.name,
           date: attendance.date,
           time: attendance.time,

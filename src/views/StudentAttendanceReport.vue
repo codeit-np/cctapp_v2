@@ -2,48 +2,55 @@
   <div id="print-area">
     <print-only />
     <el-card class="no-print">
-      <el-button class="" v-print="'#print-area'"  v-loading="loading" type="primary"
-          >
-          <i class="fa fa-print" aria-hidden="true"></i>
-          Print</el-button
-        >
       <div class="py-2" v-loading="metaLoading">
         <div class="d-flex justify-content-between">
-          <span>Select Term:
-          <terms-drop-down v-model="term_id" :loading.sync="metaLoading" />
+          <span
+            >Select Term:
+            <terms-drop-down v-model="term_id" :loading.sync="metaLoading" />
           </span>
-          <el-button
-            class="my-1 "
-            v-loading="loading"
-            @click="fetchAttendance"
-            :disabled="!term_id"
-            type="primary"
-            >Show Attendance Report</el-button
-          >
+          <div>
+            <el-button
+              class=""
+              v-print="'#print-area'"
+              v-loading="loading"
+              type="primary"
+            >
+              <i class="fa fa-print" aria-hidden="true"></i>
+              Print</el-button
+            >
+            <el-button
+              class="my-1"
+              v-loading="loading"
+              @click="fetchAttendance"
+              :disabled="!term_id"
+              type="primary"
+              >Show Attendance Report</el-button
+            >
+          </div>
         </div>
       </div>
     </el-card>
-    <el-card v-if="student">
-      <address>
+    <el-card >
+      <div class="d-flex justify-content-between">
+      <address v-if="student">
         <div>Name: {{ student.name }}</div>
         <div>Faculty: {{ student.faculty.title }}</div>
         <div>Term: {{ student.term.title }}</div>
         <div>Batch: {{ student.batch.year }}</div>
       </address>
+        <chart  v-if="total>0" :options="chartOptions"> </chart>
+      </div>
     </el-card>
     <el-card class="py-2" v-if="attendances.length > 0 || total">
       <div class="row">
-        <div class="col-lg-4">
-          <chart :options="chartOptions"> </chart>
-        </div>
-        <div class="col-lg-8 table-responsive">
+        <div class="col-lg-12 table-responsive">
           <table class="table table-sm table-striped">
             <thead>
               <tr>
                 <th>#</th>
                 <th>Date</th>
                 <th>Topic</th>
-  
+
                 <th>Subject</th>
                 <th>Status</th>
               </tr>
@@ -156,7 +163,7 @@ export default {
   components: {
     TermsDropDown,
     Chart,
-    PrintOnly
+    PrintOnly,
   },
   computed: {
     ...mapGetters("students", ["singleStudent"]),
@@ -167,10 +174,10 @@ export default {
           plotBorderWidth: null,
           plotShadow: false,
           type: "pie",
-          backgroundColor:"none"
+          backgroundColor: "none",
         },
         title: {
-          text: "Student Attendance Chart",
+          text: "",
         },
         accessibility: {
           point: {
@@ -219,22 +226,28 @@ export default {
 };
 </script>
 <style>
-    .print-only{
-      display: none;
-    }
+.print-only {
+  display: none;
+}
 
-  @media print {
-    header, footer, aside, nav, .menu, .hero, .adslot {
-      display: none;
-    }
-    #print-area{
-      display: block;
-    }
-    .print-only{
-      display: block;
-    }
-    .no-print{
-      display: none;
-    }
+@media print {
+  header,
+  footer,
+  aside,
+  nav,
+  .menu,
+  .hero,
+  .adslot {
+    display: none;
   }
+  #print-area {
+    display: block;
+  }
+  .print-only {
+    display: block;
+  }
+  .no-print {
+    display: none;
+  }
+}
 </style>

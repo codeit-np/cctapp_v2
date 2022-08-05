@@ -12,8 +12,10 @@
 
       </div>
     </el-card> 
-        <div  class="table-responsive">
-            <datatable v-loading="loading" v-if="reports.length>0" title="Teacher Reports" :rows="reports" :columns="headers"> </datatable>
+        <div  class="table-responsive py-4">
+
+            <!-- <datatable v-loading="loading" v-if="reports.length>0" title="Teacher Reports" :rows="reports" :columns="headers"> </datatable> -->
+            <custom-data-table  v-if="reports.length>0" title="Teacher Reports" :rows="rows" :headers="headers"> </custom-data-table>
             <div v-if="queried && reports.length===0" class="text-danger p-4"> Sorry No Data Available</div>
         </div>
 
@@ -23,14 +25,16 @@
 </template>
 <script>
 import DatePicker from "../components/sections/attendance/DatePicker.vue";
-import DataTable from "vue-materialize-datatable";
+// import DataTable from "vue-materialize-datatable";
 import TeachersDropdown from "../components/Dropdowns/TeachersDropdown.vue";
 import { doGet } from "../helpers/request";
+import CustomDataTable from '../components/DataTable.vue'
 
 export default {
   components: {
     DatePicker,
-    datatable: DataTable,
+    CustomDataTable,
+    // datatable: DataTable,
     TeachersDropdown
   },
   data() {
@@ -40,7 +44,7 @@ export default {
       headers: [
         {
           label: "Teacher Name",
-          field: "teacher.name",
+          field: "teacher",
           numeric: false,
           html: false,
         },
@@ -66,6 +70,17 @@ export default {
   },
   mounted() {
     
+  },
+  computed:{
+    rows(){
+      return this.reports.map(report=>{
+        return {
+          teacher: report.teacher.name,
+          remarks: report.remarks,
+          date: report.date
+        }
+      })
+    }
   },
   methods: {
     
@@ -102,4 +117,4 @@ export default {
   },
 };
 </script>
-<style lang=""></style>
+
