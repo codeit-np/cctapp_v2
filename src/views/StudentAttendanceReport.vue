@@ -8,6 +8,10 @@
             >Select Term:
             <terms-drop-down v-model="term_id" :loading.sync="metaLoading" />
           </span>
+           <span
+            >Select Subject:
+            <subjects-drop-down v-model="subject_id" :term_id="term_id" :loading.sync="metaLoading" :hasNull="true"/>
+          </span>
           <div>
             <el-button
               class=""
@@ -81,6 +85,7 @@
 <script>
 import { mapGetters } from "vuex";
 import TermsDropDown from "../components/Dropdowns/TermsDropdown.vue";
+import SubjectsDropDown from "../components/Dropdowns/SubjectsDropdown.vue";
 import PrintOnly from "../components/PrintOnly.vue";
 import { doGet } from "../helpers/request";
 import { Chart } from "highcharts-vue";
@@ -88,6 +93,7 @@ export default {
   data() {
     return {
       term_id: null,
+      subject_id:null,
       total: null,
       present: null,
       loading: false,
@@ -110,6 +116,7 @@ export default {
           path: `students/${this.$route.params.id}/attendances`,
           query: {
             term_id: this.term_id,
+            subject_id: this.subject_id
           },
         });
         if (!response.ok) {
@@ -137,6 +144,7 @@ export default {
           path: `students/${this.$route.params.id}/attendances/detailed`,
           query: {
             term_id: this.term_id,
+             subject_id: this.subject_id
           },
         });
         if (!response.ok) {
@@ -164,6 +172,8 @@ export default {
     TermsDropDown,
     Chart,
     PrintOnly,
+    SubjectsDropDown,
+
   },
   computed: {
     ...mapGetters("students", ["singleStudent"]),
@@ -222,6 +232,10 @@ export default {
     student() {
       return this.singleStudent({ student_id: this.id });
     },
+    faculty_id(){
+      const student = this.student;
+      return student?student.faculty.id : null;
+    }
   },
 };
 </script>

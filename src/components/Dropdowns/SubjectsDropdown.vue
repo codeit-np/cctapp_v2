@@ -4,7 +4,7 @@
     <el-option
       v-for="subject in filteredSubjects({faculty_id,term_id})"
       :key="subject.id"
-      :label="`${subject.title}- ${subject.term.title} - ${subject.faculty.title}`"
+      :label="`${subject.title}- ${subject.term.title} - ${subject.faculty.title} - ${subject.subject_type.title}`"
       :value="subject.id"
     >
     </el-option>

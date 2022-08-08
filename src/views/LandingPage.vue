@@ -58,6 +58,9 @@
             <el-card shadow="hover">Assign Subjects To Students</el-card>
           </div>
 
+          <div class="col-lg-4 col-md-6" @click="$router.push({ name: 'Student Subject Remove' })">
+            <el-card shadow="hover">Remove Subjects of Students</el-card>
+          </div>
           <div class="col-lg-4 col-md-6" @click="$router.push({ name: 'Term Increment' })">
             <el-card shadow="hover">Student Promotion</el-card>
           </div>

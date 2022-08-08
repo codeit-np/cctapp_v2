@@ -103,6 +103,12 @@ const routes = [
           import(/* webpackChunkName: "student_subject" */ "../views/StudentSubject.vue"),
       },
       {
+        name: "Student Subject Remove",
+        path: "/student-subject-remove",
+        component: () =>
+          import(/* webpackChunkName: "student_subject_remove" */ "../views/StudentSubjectRemove.vue"),
+      },
+      {
         name: "Attendance",
         path: "/attendance",
         component: () =>
