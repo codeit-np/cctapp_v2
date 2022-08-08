@@ -10,7 +10,7 @@
           </span>
            <span
             >Select Subject:
-            <subjects-drop-down v-model="subject_id" :term_id="term_id" :loading.sync="metaLoading" :hasNull="true"/>
+            <subjects-drop-down v-model="subject_id" :faculty_id="faculty_id" :term_id="term_id" :loading.sync="metaLoading" :hasNull="true"/>
           </span>
           <div>
             <el-button
@@ -42,7 +42,7 @@
         <div>Term: {{ student.term.title }}</div>
         <div>Batch: {{ student.batch.year }}</div>
       </address>
-        <chart  v-if="total>0" :options="chartOptions"> </chart>
+        <chart  v-if="total>0" :options="chartOptions" > </chart>
       </div>
     </el-card>
     <el-card class="py-2" v-if="attendances.length > 0 || total">
